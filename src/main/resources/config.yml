@@ -411,12 +411,13 @@ reactions:
           - ""
           - "§a§lREACTIONS"
           - "§e%name §fwon §e%prize$§f!"
-          - "§fAnswer was: §e%result"
+          - "§fAnswer was: §e%answer"
           - ""
         no-winner:
           - ""
           - "§a§lREACTIONS"
           - "§eNoone §fwon. §c:("
+          - "§fAnswer was: §e%answer"
           - ""
       title:
         enabled: false
@@ -464,13 +465,13 @@ reactions:
           - ""
           - "§a§lREACTIONS"
           - "§e%name §fwon §e%prize$§f!"
-          - "§fAnswer was: §e%result"
+          - "§fAnswer was: §e%answer"
           - ""
         no-winner:
           - ""
           - "§a§lREACTIONS"
           - "§eNoone §fwon. §c:("
-          - "§fAnswer was: §e%result"
+          - "§fAnswer was: §e%answer"
           - ""
       title:
         enabled: false
@@ -518,13 +519,13 @@ reactions:
           - ""
           - "§a§lREACTIONS"
           - "§e%name §fwon §e%prize$§f!"
-          - "§fAnswer was: §e%result"
+          - "§fAnswer was: §e%answer"
           - ""
         no-winner:
           - ""
           - "§a§lREACTIONS"
           - "§eNoone §fwon. §c:("
-          - "§fAnswer was: §e%result"
+          - "§fAnswer was: §e%answer"
           - ""
       title:
         enabled: false
