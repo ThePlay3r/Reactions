@@ -1,0 +1,614 @@
+# Big thanks and love for using my plugins! ^^
+
+#|--------------------------------------------------------------------------------------------------------------------|#
+# Plugin: Reactions
+# Author: https://www.mc-market.org/members/89497/ | https://www.spigotmc.org/members/radekjenejlepsi.227786/
+# Description: Simple plugin for players to interact with.
+# Dependencies:
+#   -> PLJRApi
+#   -> Vault (https://www.spigotmc.org/resources/vault.34315/)
+#   -> PlaceholderAPI<Optional> (https://www.spigotmc.org/resources/placeholderapi.6245/)
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+##################\
+# Settings Setup #############################################################\
+################## Here, you can enable or disable functions of this plugin. # \
+                 #############################################################  \
+settings:
+  start-on-startup: true #-> Should we launch reactions on server startup?
+  restart-on-end: true #-> Should we start new reaction after ending one?
+  clear-answer: true #-> Should we disable(hide) the message from player, that answered?
+  cooldown: 300 #-> How long should we wait between reactions? (In seconds)
+  time: 20 #-> How long should we give players to react? (In seconds) - MUST be lower than cooldown!
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+###################\
+# Reactions Setup ##########################################################\
+################### Here, you can set EVERYTHING for all of the reactions. # \
+                  ##########################################################  \
+reactions:
+  WORD_SHUFFLE:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§fDecipher §e%word §fas first and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - "§fThe word was: §e%answer§f."
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - "§fThe word was: §e%answer§f."
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§fDecipher §e%word §fas first and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §fDecipher §e%word §fas first and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  WORD_COPY:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§fCopy §e%word §fas first and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§fCopy §e%word §fas first and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §fCopy §e%word §fas first and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  WORD_HIDE:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eHover §fover this message, copy"
+          - "§fthe §eword §fand win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - "§fThe word was: §e%answer§f."
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - "§fThe word was: §e%answer§f."
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§eHover §fover chat message and write the §eword§f!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §eHover §fover chat message and write the §eword§f!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  BLOCK_PLACE:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§ePlace §fa random block and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§ePlace §fa random block and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §ePlace §fa random block and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  BLOCK_BREAK:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eBreak §fa random block and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§eBreak §fa random block and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §eBreak §fa random block and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  MOB_KILL:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eKill §fa random mob and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§eKill §fa random mob and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §eKill §fa random mob and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  FISH_CATCH:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eCatch §fa fish and win a prize!"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§eCatch §fa fish and win a prize!"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§a§lREACTIONS: §eCatch §fa fish and win a prize!"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  MATH_SUMMATION:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§fWhat is §e%a§f+§e%b§f?"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - "§fAnswer was: §e%result"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§fWhat is §e%a§f+§e%b§f?"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§fWhat is §e%a§f+§e%b§f?"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  MATH_SUBSTRACTION:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§fWhat is §e%a§f-§e%b§f?"
+          - "§fAnswer was: §e%result"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§fWhat is §e%a§f-§e%b§f?"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§fWhat is §e%a§f-§e%b§f?"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+  MATH_MULTIPLICATION:
+    enabled: true
+    win-amount: 100
+    broadcast:
+      chat:
+        enabled: true
+        start:
+          - ""
+          - "§a§lREACTIONS"
+          - "§fWhat is §e%a§f*§e%b§f?"
+          - "§fAnswer was: §e%result"
+          - ""
+        end:
+          - ""
+          - "§a§lREACTIONS"
+          - "§e%name §fwon §e%prize$§f!"
+          - ""
+        no-winner:
+          - ""
+          - "§a§lREACTIONS"
+          - "§eNoone §fwon. §c:("
+          - ""
+      title:
+        enabled: false
+        start:
+          title: "§a§lREACTIONS"
+          subtitle: "§fWhat is §e%a§f*§e%b§f?"
+          in: 10
+          stay: 40
+          out: 10
+        end:
+          title: "§a§lREACTIONS"
+          subtitle: "§e%name §fwon §e%prize$§f!"
+          in: 10
+          stay: 40
+          out: 10
+        no-winner:
+          title: "§a§lREACTIONS"
+          subtitle: "§eNoone §fwon. §c:("
+          in: 10
+          stay: 40
+          out: 10
+      actionbar:
+        enabled: false
+        start:
+          message: "§fWhat is §e%a§f*§e%b§f?"
+          duration: 40
+        end:
+          message: "§a§lREACTIONS: §e%name §fwon §e%prize$§f!"
+          duration: 40
+        no-winner:
+          message: "§a§lREACTIONS: §eNoone §fwon. §c:("
+          duration: 40
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+###############\
+# Words Setup ######################################################################\
+############### Here, you can add or remove words, that will be used in reactions. # \
+              ######################################################################  \
+words:
+  - "growth"
+  - "held"
+  - "happily"
+  - "stuck"
+  - "soft"
+  - "winter"
+  - "grain"
+  - "ago"
+  - "strike"
+  - "reach"
+  - "language"
+  - "writing"
+  - "four"
+  - "remember"
+  - "independent"
+  - "flag"
+  - "fight"
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+##############\
+# Lang Setup ################################################################\
+############## Here, you can customize messages, send by the plugin itself. # \
+             ################################################################  \
+
+help:
+  - ""
+  - "§a§lReactions Help v${project.version}"
+  - ""
+  - "§e/reactions §8» §fOpens GUI with your statistics."
+  - "§e/reactions help §8» §fDisplays this message."
+  - "§e/reactions top §8» §fShows reactions leaderboard."
+  - "§e/reactions stats <player> §8» §fDisplays player's statistics."
+
+admin-help:
+  - ""
+  - "§a§lReactions Admin-Help v${project.version}"
+  - ""
+  - "§e/areactions help §8» §fDisplays this message."
+  - "§e/areactions restart §8» §fStops current and starts a brand new reaction. (If §erestart-on-end §fis §etrue§f)"
+  - "§e/areactions start §8» §fStats new reaction."
+  - "§e/areactions end §8» §fEnds current reaction."
+
+lang:
+  NO_CONSOLE: "§a§lReactions §8» §fThis command is for in-game use only!"
+  RESTART_SUCCESS: "§a§lReactions §8» §bSuccessfully §frestarted reactions."
+  END_SUCCESS: "§a§lReactions §8» §bSuccessfully §fended reactions."
+  START_SUCCESS: "§a§lReactions §8» §bSuccessfully §fstarted reactions."
+  START_FAILURE: "§a§lReactions §8» §fReactions are already §brunning§f!"
+  NONE: "§eNone"
+#|--------------------------------------------------------------------------------------------------------------------|#
