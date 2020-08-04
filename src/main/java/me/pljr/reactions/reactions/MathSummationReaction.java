@@ -28,7 +28,7 @@ public class MathSummationReaction extends Reaction implements Listener {
         this.pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(this, Reactions.getInstance());
 
-        setType(ReactionType.WORD_COPY);
+        setType(ReactionType.MATH_SUMMATION);
         setup();
 
         int a = new Random().nextInt(100);

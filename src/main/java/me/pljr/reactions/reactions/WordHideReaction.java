@@ -32,7 +32,7 @@ public class WordHideReaction extends Reaction implements Listener {
         this.pluginManager = Bukkit.getServer().getPluginManager();
         pluginManager.registerEvents(this, Reactions.getInstance());
 
-        setType(ReactionType.WORD_COPY);
+        setType(ReactionType.WORD_HIDE);
         setup();
 
         if (CfgWords.words.size() > 0){

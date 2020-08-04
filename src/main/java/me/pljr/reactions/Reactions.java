@@ -28,6 +28,7 @@ public final class Reactions extends JavaPlugin {
         setupReactionManager();
         setupListeners();
         setupDatabase();
+        setupCommand();
     }
 
     private boolean setupPLJRApi(){

@@ -55,7 +55,7 @@ public class ReactionManager extends ReactionUtil implements Listener {
             this.running = reaction;
         }
         setReaction(this.running);
-        Bukkit.getScheduler().runTaskLaterAsynchronously(Reactions.getInstance(), ()->{
+        Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
             if (running==null) return;
             broadcastEnd(null, running.getAnswer(), running.getWin());
             restart(true);
@@ -69,7 +69,7 @@ public class ReactionManager extends ReactionUtil implements Listener {
         }
         if (CfgSettings.restartOnEnd){
             if (cooldown){
-                Bukkit.getScheduler().runTaskLaterAsynchronously(Reactions.getInstance(), ()->{
+                Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
                     if (running != null) return;
                     start(null);
                 }, CfgSettings.cooldown*20);

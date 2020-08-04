@@ -459,17 +459,18 @@ reactions:
           - ""
           - "§a§lREACTIONS"
           - "§fWhat is §e%a§f-§e%b§f?"
-          - "§fAnswer was: §e%result"
           - ""
         end:
           - ""
           - "§a§lREACTIONS"
           - "§e%name §fwon §e%prize$§f!"
+          - "§fAnswer was: §e%result"
           - ""
         no-winner:
           - ""
           - "§a§lREACTIONS"
           - "§eNoone §fwon. §c:("
+          - "§fAnswer was: §e%result"
           - ""
       title:
         enabled: false
@@ -512,17 +513,18 @@ reactions:
           - ""
           - "§a§lREACTIONS"
           - "§fWhat is §e%a§f*§e%b§f?"
-          - "§fAnswer was: §e%result"
           - ""
         end:
           - ""
           - "§a§lREACTIONS"
           - "§e%name §fwon §e%prize$§f!"
+          - "§fAnswer was: §e%result"
           - ""
         no-winner:
           - ""
           - "§a§lREACTIONS"
           - "§eNoone §fwon. §c:("
+          - "§fAnswer was: §e%result"
           - ""
       title:
         enabled: false
