@@ -28,10 +28,10 @@ public class BlockPlaceReaction extends Reaction implements Listener {
             ChatUtil.broadcast(getChatBroadcastStart());
         }
         if (isTitleBroadcast()){
-            TitleManager.broadcast(getTitleBroadcastEnd());
+            TitleManager.broadcast(getTitleBroadcastStart());
         }
         if (isActionBarBroadcast()){
-            ActionBarManager.broadcast(getActionBarBroadcastEnd());
+            ActionBarManager.broadcast(getActionBarBroadcastStart());
         }
     }
 

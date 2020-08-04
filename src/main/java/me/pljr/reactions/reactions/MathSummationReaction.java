@@ -45,7 +45,7 @@ public class MathSummationReaction extends Reaction implements Listener {
             ChatUtil.broadcast(broadcast);
         }
         if (isTitleBroadcast()){
-            PLJRTitle title = getTitleBroadcastEnd();
+            PLJRTitle title = getTitleBroadcastStart();
             TitleManager.broadcast(new PLJRTitle(
                     title.getTitle().replace("%a", a+"").replace("%b", b+""),
                     title.getSubtitle().replace("%a", a+"").replace("%b", b+""),
@@ -53,7 +53,7 @@ public class MathSummationReaction extends Reaction implements Listener {
             ));
         }
         if (isActionBarBroadcast()){
-            PLJRActionBar actionBar = getActionBarBroadcastEnd();
+            PLJRActionBar actionBar = getActionBarBroadcastStart();
             ActionBarManager.broadcast(new PLJRActionBar(
                     actionBar.getMessage().replace("%a", a+"").replace("%b", b+""),
                     actionBar.getDuration()

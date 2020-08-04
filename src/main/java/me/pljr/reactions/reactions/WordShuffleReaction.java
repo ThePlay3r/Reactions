@@ -49,7 +49,7 @@ public class WordShuffleReaction extends Reaction implements Listener {
             ChatUtil.broadcast(broadcast);
         }
         if (isTitleBroadcast()){
-            PLJRTitle title = getTitleBroadcastEnd();
+            PLJRTitle title = getTitleBroadcastStart();
             TitleManager.broadcast(new PLJRTitle(
                     title.getTitle().replace("%word", shuffledWord),
                     title.getSubtitle().replace("%word", shuffledWord),
@@ -57,7 +57,7 @@ public class WordShuffleReaction extends Reaction implements Listener {
             ));
         }
         if (isActionBarBroadcast()){
-            PLJRActionBar actionBar = getActionBarBroadcastEnd();
+            PLJRActionBar actionBar = getActionBarBroadcastStart();
             ActionBarManager.broadcast(new PLJRActionBar(
                     actionBar.getMessage().replace("%word", shuffledWord),
                     actionBar.getDuration()
