@@ -5,6 +5,7 @@ import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.enums.ReactionType;
 import me.pljr.reactions.events.ReactionEvent;
 import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.objects.ReactionStat;
 import me.pljr.reactions.reactions.*;
 import me.pljr.reactions.utils.ReactionUtil;
 import org.bukkit.Bukkit;
@@ -13,8 +14,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+import java.util.HashMap;
+
 public class ReactionManager extends ReactionUtil implements Listener {
     private Reaction running;
+    private HashMap<ReactionType, ReactionStat> leaderboard;
+
+    public ReactionManager(){
+        this.leaderboard = Reactions.getQueryManager().getLeaderboard();
+    }
 
     public void start(Reaction reaction){
         if (reaction == null){
@@ -90,6 +98,10 @@ public class ReactionManager extends ReactionUtil implements Listener {
         return running != null;
     }
 
+    public HashMap<ReactionType, ReactionStat> getLeaderboard() {
+        return leaderboard;
+    }
+
     @EventHandler
     private void onReact(ReactionEvent event){
         Player player = event.getPlayer();
@@ -100,5 +112,6 @@ public class ReactionManager extends ReactionUtil implements Listener {
         PlayerManager.setCorePlayer(playerName, corePlayer);
         Reactions.getQueryManager().savePlayer(playerName);
         restart(true);
+        this.leaderboard = Reactions.getQueryManager().getLeaderboard();
     }
 }

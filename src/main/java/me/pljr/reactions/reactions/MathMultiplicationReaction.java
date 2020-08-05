@@ -65,7 +65,9 @@ public class MathMultiplicationReaction extends Reaction implements Listener {
     private void onChat(AsyncPlayerChatEvent event){
         if (event.getMessage().contains(answer+"")){
             if (CfgSettings.clearAnswer) event.setCancelled(true);
-            pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType()));
+            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()->{
+                pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType()));
+            });
             HandlerList.unregisterAll(this);
         }
     }

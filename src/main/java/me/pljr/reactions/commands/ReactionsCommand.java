@@ -3,12 +3,13 @@ package me.pljr.reactions.commands;
 import me.pljr.pljrapi.utils.CommandUtil;
 import me.pljr.reactions.config.CfgLang;
 import me.pljr.reactions.enums.Lang;
+import me.pljr.reactions.menus.StatsMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReactionsCommand implements CommandExecutor {
+public class ReactionsCommand extends CommandUtil implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -17,33 +18,27 @@ public class ReactionsCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        if (!CommandUtil.checkPerm(player, "reactions.use")) return false;
+        if (!checkPerm(player, "reactions.use")) return false;
 
         // /reactions help
         if (!(args.length > 0) || args[0].equalsIgnoreCase("help")){
-            CommandUtil.sendHelp(player, CfgLang.help);
+            sendHelp(player, CfgLang.help);
             return true;
-        }
-
-        // /reactions top
-        if (args[0].equalsIgnoreCase("top")){
-            if (!CommandUtil.checkPerm(player, "reactions.top")) return false;
-            //TODO: Open leaderboard menu.
         }
 
         // /reactions stats <player>
         if (args[0].equalsIgnoreCase("stats")){
-            if (!CommandUtil.checkPerm(player, "reactions.stats")) return false;
+            if (!checkPerm(player, "reactions.stats")) return false;
             if (args.length > 1){
-                if (!CommandUtil.checkPerm(player, "reactions.stats.others")) return false;
-                //TODO: Open the stats GUI of requested player.
+                if (!checkPerm(player, "reactions.stats.others")) return false;
+                StatsMenu.open(player, args[1]);
                 return true;
             }
-            //TODO: Open the stats GUI of player.
+            StatsMenu.open(player, player.getName());
             return true;
         }
 
-        CommandUtil.sendHelp(player, CfgLang.help);
+        sendHelp(player, CfgLang.help);
         return false;
     }
 }

@@ -5,12 +5,10 @@ import me.pljr.pljrapi.database.DataSource;
 import me.pljr.pljrapi.managers.ConfigManager;
 import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
-import me.pljr.reactions.config.CfgLang;
-import me.pljr.reactions.config.CfgReactions;
-import me.pljr.reactions.config.CfgSettings;
-import me.pljr.reactions.config.CfgWords;
+import me.pljr.reactions.config.*;
 import me.pljr.reactions.managers.QueryManager;
 import me.pljr.reactions.managers.ReactionManager;
+import me.pljr.reactions.menus.StatsMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,9 +24,9 @@ public final class Reactions extends JavaPlugin {
         instance = this;
         if (!setupPLJRApi()) return;
         setupConfig();
+        setupDatabase();
         setupReactionManager();
         setupListeners();
-        setupDatabase();
         setupCommand();
     }
 
@@ -51,10 +49,12 @@ public final class Reactions extends JavaPlugin {
         CfgSettings.load();
         CfgWords.load();
         CfgLang.load();
+        CfgStatsMenu.load();
     }
 
     private void setupListeners(){
         getServer().getPluginManager().registerEvents(reactionManager, this);
+        getServer().getPluginManager().registerEvents(new StatsMenu(), this);
     }
 
     private void setupReactionManager(){

@@ -6,6 +6,7 @@ import me.pljr.reactions.config.CfgLang;
 import me.pljr.reactions.enums.Lang;
 import me.pljr.reactions.enums.ReactionType;
 import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.Bukkit;
 
 import java.sql.Connection;
@@ -88,8 +89,8 @@ public class QueryManager {
         });
     }
 
-    public HashMap<ReactionType, String> getLeaderboard(){
-        HashMap<ReactionType, String> map = new HashMap<>();
+    public HashMap<ReactionType, ReactionStat> getLeaderboard(){
+        HashMap<ReactionType, ReactionStat> map = new HashMap<>();
         Bukkit.getScheduler().runTaskAsynchronously(instance, ()->{
            try {
                Connection connection = dataSource.getConnection();
@@ -192,54 +193,54 @@ public class QueryManager {
                    }
                }
                if (maxWordShuffle == null){
-                   map.put(ReactionType.WORD_SHUFFLE, none);
+                   map.put(ReactionType.WORD_SHUFFLE, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.WORD_SHUFFLE, maxWordShuffle.getKey());
+                   map.put(ReactionType.WORD_SHUFFLE, new ReactionStat(maxWordShuffle.getKey(), maxWordShuffle.getValue()));
                }
                if (maxWordCopy == null){
-                   map.put(ReactionType.WORD_COPY, none);
+                   map.put(ReactionType.WORD_COPY, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.WORD_COPY, maxWordCopy.getKey());
+                   map.put(ReactionType.WORD_COPY, new ReactionStat(maxWordCopy.getKey(), maxWordCopy.getValue()));
                }
                if (maxWordHide == null){
-                   map.put(ReactionType.WORD_HIDE, none);
+                   map.put(ReactionType.WORD_HIDE, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.WORD_HIDE, maxWordHide.getKey());
+                   map.put(ReactionType.WORD_HIDE, new ReactionStat(maxWordHide.getKey(), maxWordHide.getValue()));
                }
                if (maxBlockPlace == null){
-                   map.put(ReactionType.BLOCK_PLACE, none);
+                   map.put(ReactionType.BLOCK_PLACE, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.BLOCK_PLACE, maxBlockPlace.getKey());
+                   map.put(ReactionType.BLOCK_PLACE, new ReactionStat(maxBlockPlace.getKey(), maxBlockPlace.getValue()));
                }
                if (maxBlockBreak == null){
-                   map.put(ReactionType.BLOCK_BREAK, none);
+                   map.put(ReactionType.BLOCK_BREAK, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.BLOCK_BREAK, maxBlockBreak.getKey());
+                   map.put(ReactionType.BLOCK_BREAK, new ReactionStat(maxBlockBreak.getKey(), maxBlockBreak.getValue()));
                }
                if (maxMobKill == null){
-                   map.put(ReactionType.MOB_KILL, none);
+                   map.put(ReactionType.MOB_KILL, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.MOB_KILL, maxMobKill.getKey());
+                   map.put(ReactionType.MOB_KILL, new ReactionStat(maxMobKill.getKey(), maxMobKill.getValue()));
                }
                if (maxFishCatch == null){
-                   map.put(ReactionType.FISH_CATCH, none);
+                   map.put(ReactionType.FISH_CATCH, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.FISH_CATCH, maxFishCatch.getKey());
+                   map.put(ReactionType.FISH_CATCH, new ReactionStat(maxFishCatch.getKey(), maxFishCatch.getValue()));
                }
                if (maxMathSummation == null){
-                   map.put(ReactionType.MATH_SUMMATION, none);
+                   map.put(ReactionType.MATH_SUMMATION, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.MATH_SUMMATION, maxMathSummation.getKey());
+                   map.put(ReactionType.MATH_SUMMATION, new ReactionStat(maxMathSummation.getKey(), maxMathSummation.getValue()));
                }
                if (maxMathSubstraction == null){
-                   map.put(ReactionType.MATH_SUBSTRACTION, none);
+                   map.put(ReactionType.MATH_SUBSTRACTION, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.MATH_SUBSTRACTION, maxMathSubstraction.getKey());
+                   map.put(ReactionType.MATH_SUBSTRACTION, new ReactionStat(maxMathSubstraction.getKey(), maxMathSubstraction.getValue()));
                }
                if (maxMathMultiplication == null){
-                   map.put(ReactionType.MATH_MULTIPLICATION, none);
+                   map.put(ReactionType.MATH_MULTIPLICATION, new ReactionStat(none, 0));
                }else{
-                   map.put(ReactionType.MATH_MULTIPLICATION, maxMathMultiplication.getKey());
+                   map.put(ReactionType.MATH_MULTIPLICATION, new ReactionStat(maxMathMultiplication.getKey(), maxMathMultiplication.getValue()));
                }
            }catch (SQLException e){
                e.printStackTrace();

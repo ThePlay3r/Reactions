@@ -561,6 +561,117 @@ reactions:
 #|--------------------------------------------------------------------------------------------------------------------|#
 
 ###############\
+# Menus Setup ###########################################################\
+############### Here, you can customize the looks of all in-game menus. # \
+              ###########################################################  \
+
+stats-menu:
+  title: "§a§lReactions v${project.version}"
+  background-1:
+    type: "BLACK_STAINED_GLASS_PANE"
+    name: "§0"
+    amount: 1
+    lore:
+      - "§r"
+  background-2:
+    type: "LIME_STAINED_GLASS_PANE"
+    name: "§a"
+    amount: 1
+    lore:
+      - "§r"
+  word-shuffle:
+    type: "BOOK"
+    name: "§eDeciphered words:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  word-hide:
+    type: "BARRIER"
+    name: "§eFound words:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  word-copy:
+    type: "PAPER"
+    name: "§eCopied words:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  math-multiplication:
+    type: "COMPASS"
+    name: "§eMultiplications solved:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  math-substraction:
+    type: "COMPASS"
+    name: "§eSubstractions solved:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  math-summation:
+    type: "COMPASS"
+    name: "§eSummations solved:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  block-break:
+    type: "DIAMOND_PICKAXE"
+    name: "§eBlocks destroyed:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  block-place:
+    type: "GRASS"
+    name: "§eBlocks placed:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  fish-catch:
+    type: "FISHING_ROD"
+    name: "§eFish caught:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+  mob-kill:
+    type: "IRON_SWORD"
+    name: "§eMobs killed:"
+    amount: 1
+    lore:
+      - "§8► §7%amount"
+      - ""
+      - "§aServer top:"
+      - "§f%topName §7- §f%topAmount"
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+###############\
 # Words Setup ######################################################################\
 ############### Here, you can add or remove words, that will be used in reactions. # \
               ######################################################################  \
@@ -595,7 +706,6 @@ help:
   - ""
   - "§e/reactions §8» §fOpens GUI with your statistics."
   - "§e/reactions help §8» §fDisplays this message."
-  - "§e/reactions top §8» §fShows reactions leaderboard."
   - "§e/reactions stats <player> §8» §fDisplays player's statistics."
 
 admin-help:
