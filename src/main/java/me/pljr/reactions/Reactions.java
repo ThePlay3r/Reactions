@@ -5,6 +5,7 @@ import me.pljr.pljrapi.database.DataSource;
 import me.pljr.pljrapi.managers.ConfigManager;
 import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
+import me.pljr.reactions.config.CfgLang;
 import me.pljr.reactions.config.CfgReactions;
 import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.config.CfgWords;
@@ -49,6 +50,7 @@ public final class Reactions extends JavaPlugin {
         CfgReactions.load();
         CfgSettings.load();
         CfgWords.load();
+        CfgLang.load();
     }
 
     private void setupListeners(){
