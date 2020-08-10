@@ -22,6 +22,7 @@ public class StatsMenu implements Listener {
         Inventory inventory = Bukkit.createInventory(player, 6*9, CfgStatsMenu.title);
 
         CorePlayer corePlayer = PlayerManager.getCorePlayer(requestName);
+        HashMap<ReactionType, Integer> stats = corePlayer.getStats();
         HashMap<ReactionType, ReactionStat> top = Reactions.getReactionManager().getLeaderboard();
 
         inventory.setItem(0, CfgStatsMenu.background1);
@@ -72,52 +73,52 @@ public class StatsMenu implements Listener {
         inventory.setItem(35, CfgStatsMenu.background2);
 
         inventory.setItem(4, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.wordHide,
-                "%amount", corePlayer.getWordHide()+""),
+                "%amount", stats.get(ReactionType.WORD_HIDE)+""),
                 "%topName", top.get(ReactionType.WORD_HIDE).getName()),
                 "%topAmount", top.get(ReactionType.WORD_HIDE).getAmount()+"")
         );
         inventory.setItem(13, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.mathMultiplication,
-                "%amount", corePlayer.getMathMultiplication()+""),
+                "%amount", stats.get(ReactionType.MATH_MULTIPLICATION)+""),
                 "%topName", top.get(ReactionType.MATH_MULTIPLICATION).getName()),
                 "%topAmount", top.get(ReactionType.MATH_MULTIPLICATION).getAmount()+"")
         );
         inventory.setItem(22, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.mathSummation,
-                "%amount", corePlayer.getMathSummation()+""),
+                "%amount", stats.get(ReactionType.MATH_SUMMATION)+""),
                 "%topName", top.get(ReactionType.MATH_SUMMATION).getName()),
                 "%topAmount", top.get(ReactionType.MATH_SUMMATION).getAmount()+"")
         );
         inventory.setItem(31, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.mathSubstraction,
-                "%amount", corePlayer.getMathSubstraction()+""),
+                "%amount", stats.get(ReactionType.MATH_SUBSTRACTION)+""),
                 "%topName", top.get(ReactionType.MATH_SUBSTRACTION).getName()),
                 "%topAmount", top.get(ReactionType.MATH_SUBSTRACTION).getAmount()+"")
         );
         inventory.setItem(40, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.fishCatch,
-                "%amount", corePlayer.getFishCatch()+""),
+                "%amount", stats.get(ReactionType.FISH_CATCH)+""),
                 "%topName", top.get(ReactionType.FISH_CATCH).getName()),
                 "%topAmount", top.get(ReactionType.FISH_CATCH).getAmount()+"")
         );
         inventory.setItem(49, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.blockPlace,
-                "%amount", corePlayer.getBlockPlace()+""),
+                "%amount", stats.get(ReactionType.BLOCK_PLACE)+""),
                 "%topName", top.get(ReactionType.BLOCK_PLACE).getName()),
                 "%topAmount", top.get(ReactionType.BLOCK_PLACE).getAmount()+"")
         );
         inventory.setItem(11, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.wordShuffle,
-                "%amount", corePlayer.getWordShuffle()+""),
+                "%amount", stats.get(ReactionType.WORD_SHUFFLE)+""),
                 "%topName", top.get(ReactionType.WORD_SHUFFLE).getName()),
                 "%topAmount", top.get(ReactionType.WORD_SHUFFLE).getAmount()+"")
         );
         inventory.setItem(15, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.wordCopy,
-                "%amount", corePlayer.getWordCopy()+""),
+                "%amount", stats.get(ReactionType.WORD_COPY)+""),
                 "%topName", top.get(ReactionType.WORD_COPY).getName()),
                 "%topAmount", top.get(ReactionType.WORD_COPY).getAmount()+"")
         );
         inventory.setItem(21, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.mobKill,
-                "%amount", corePlayer.getMobKill()+""),
+                "%amount", stats.get(ReactionType.MOB_KILL)+""),
                 "%topName", top.get(ReactionType.MOB_KILL).getName()),
                 "%topAmount", top.get(ReactionType.MOB_KILL).getAmount()+"")
         );
         inventory.setItem(23, ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(ItemStackUtil.replaceLore(CfgStatsMenu.blockBreak,
-                "%amount", corePlayer.getBlockBreak()+""),
+                "%amount", stats.get(ReactionType.BLOCK_BREAK)+""),
                 "%topName", top.get(ReactionType.BLOCK_BREAK).getName()),
                 "%topAmount", top.get(ReactionType.BLOCK_BREAK).getAmount()+"")
         );

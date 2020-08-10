@@ -18,27 +18,30 @@ public class ReactionsCommand extends CommandUtil implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
+        String playerName = player.getName();
         if (!checkPerm(player, "reactions.use")) return false;
 
+        // /reactions
+        if (!(args.length > 0)){
+            StatsMenu.open(player, playerName);
+            return true;
+        }
+
         // /reactions help
-        if (!(args.length > 0) || args[0].equalsIgnoreCase("help")){
+        if (args[0].equalsIgnoreCase("help") && checkPerm(player, "reactions.help")){
             sendHelp(player, CfgLang.help);
             return true;
         }
 
-        // /reactions stats <player>
-        if (args[0].equalsIgnoreCase("stats")){
-            if (!checkPerm(player, "reactions.stats")) return false;
-            if (args.length > 1){
-                if (!checkPerm(player, "reactions.stats.others")) return false;
-                StatsMenu.open(player, args[1]);
-                return true;
-            }
-            StatsMenu.open(player, player.getName());
+        // /reactions <player>
+        if (checkPerm(player, "reactions.use.others")){
+            StatsMenu.open(player, args[1]);
             return true;
         }
 
-        sendHelp(player, CfgLang.help);
+        if (checkPerm(player, "reactions.help")){
+            sendHelp(player, CfgLang.help);
+        }
         return false;
     }
 }

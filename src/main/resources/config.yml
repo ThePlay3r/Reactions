@@ -6,8 +6,22 @@
 # Description: Simple plugin for players to interact with.
 # Dependencies:
 #   -> PLJRApi
+#   -> MySQL
 #   -> Vault (https://www.spigotmc.org/resources/vault.34315/)
 #   -> PlaceholderAPI<Optional> (https://www.spigotmc.org/resources/placeholderapi.6245/)
+#|--------------------------------------------------------------------------------------------------------------------|#
+
+###############\
+# MySQL Setup ##############################################################################################\
+############### This is the most important part, as the plugin can not work without proper MySQL Database. # \
+              ##############################################################################################  \
+mysql:
+  enabled: false #-> Should we use this database instead of the one configured in PLJRApi config.yml?
+  host: "127.0.0.1"
+  port: "3306"
+  database: "db"
+  username: "root"
+  password: ""
 #|--------------------------------------------------------------------------------------------------------------------|#
 
 ##################\
@@ -671,6 +685,36 @@ stats-menu:
       - "§f%topName §7- §f%topAmount"
 #|--------------------------------------------------------------------------------------------------------------------|#
 
+##############\
+# Lang Setup ################################################################\
+############## Here, you can customize messages, send by the plugin itself. # \
+             ################################################################  \
+
+help:
+  - ""
+  - "§a§lReactions Help v${project.version}"
+  - ""
+  - "§e/reactions <player> §8» §fOpens GUI with player's statistics."
+  - "§e/reactions help §8» §fDisplays this message."
+
+admin-help:
+  - ""
+  - "§a§lReactions Admin-Help v${project.version}"
+  - ""
+  - "§e/areactions help §8» §fDisplays this message."
+  - "§e/areactions restart §8» §fStops current and starts a brand new reaction. (If §erestart-on-end §fis §etrue§f)"
+  - "§e/areactions start §8» §fStats new reaction."
+  - "§e/areactions end §8» §fEnds current reaction."
+
+lang:
+  NO_CONSOLE: "§a§lReactions §8» §fThis command is for in-game use only!"
+  RESTART_SUCCESS: "§a§lReactions §8» §bSuccessfully §frestarted reactions."
+  END_SUCCESS: "§a§lReactions §8» §bSuccessfully §fended reactions."
+  START_SUCCESS: "§a§lReactions §8» §bSuccessfully §fstarted reactions."
+  START_FAILURE: "§a§lReactions §8» §fReactions are already §brunning§f!"
+  NONE: "§eNone"
+#|--------------------------------------------------------------------------------------------------------------------|#
+
 ###############\
 # Words Setup ######################################################################\
 ############### Here, you can add or remove words, that will be used in reactions. # \
@@ -693,35 +737,3 @@ words:
   - "independent"
   - "flag"
   - "fight"
-#|--------------------------------------------------------------------------------------------------------------------|#
-
-##############\
-# Lang Setup ################################################################\
-############## Here, you can customize messages, send by the plugin itself. # \
-             ################################################################  \
-
-help:
-  - ""
-  - "§a§lReactions Help v${project.version}"
-  - ""
-  - "§e/reactions §8» §fOpens GUI with your statistics."
-  - "§e/reactions help §8» §fDisplays this message."
-  - "§e/reactions stats <player> §8» §fDisplays player's statistics."
-
-admin-help:
-  - ""
-  - "§a§lReactions Admin-Help v${project.version}"
-  - ""
-  - "§e/areactions help §8» §fDisplays this message."
-  - "§e/areactions restart §8» §fStops current and starts a brand new reaction. (If §erestart-on-end §fis §etrue§f)"
-  - "§e/areactions start §8» §fStats new reaction."
-  - "§e/areactions end §8» §fEnds current reaction."
-
-lang:
-  NO_CONSOLE: "§a§lReactions §8» §fThis command is for in-game use only!"
-  RESTART_SUCCESS: "§a§lReactions §8» §bSuccessfully §frestarted reactions."
-  END_SUCCESS: "§a§lReactions §8» §bSuccessfully §fended reactions."
-  START_SUCCESS: "§a§lReactions §8» §bSuccessfully §fstarted reactions."
-  START_FAILURE: "§a§lReactions §8» §fReactions are already §brunning§f!"
-  NONE: "§eNone"
-#|--------------------------------------------------------------------------------------------------------------------|#
