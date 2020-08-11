@@ -1,5 +1,6 @@
 package me.pljr.reactions.managers;
 
+import me.pljr.pljrapi.PLJRApi;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.enums.ReactionType;
@@ -107,6 +108,7 @@ public class ReactionManager extends ReactionUtil implements Listener {
         Player player = event.getPlayer();
         String playerName = player.getName();
         broadcastEnd(playerName, running.getAnswer(), running.getWin());
+        PLJRApi.getVaultEcon().bankDeposit(playerName, running.getWin());
         CorePlayer corePlayer = PlayerManager.getCorePlayer(playerName);
         corePlayer.addReaction(event.getType(), 1);
         PlayerManager.setCorePlayer(playerName, corePlayer);
