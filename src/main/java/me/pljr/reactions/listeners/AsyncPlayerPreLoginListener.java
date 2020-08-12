@@ -9,6 +9,6 @@ public class AsyncPlayerPreLoginListener implements Listener {
 
     @EventHandler
     public void onJoin(AsyncPlayerPreLoginEvent event){
-        Reactions.getQueryManager().loadPlayerSync(event.getName());
+        Reactions.getQueryManager().loadPlayerSync(event.getUniqueId());
     }
 }

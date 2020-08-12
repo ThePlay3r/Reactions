@@ -6,6 +6,8 @@ import me.pljr.pljrapi.managers.ConfigManager;
 import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
 import me.pljr.reactions.config.*;
+import me.pljr.reactions.listeners.AsyncPlayerPreLoginListener;
+import me.pljr.reactions.listeners.PlayerQuitListener;
 import me.pljr.reactions.managers.QueryManager;
 import me.pljr.reactions.managers.ReactionManager;
 import me.pljr.reactions.menus.StatsMenu;
@@ -55,6 +57,8 @@ public final class Reactions extends JavaPlugin {
     private void setupListeners(){
         getServer().getPluginManager().registerEvents(reactionManager, this);
         getServer().getPluginManager().registerEvents(new StatsMenu(), this);
+        getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }
 
     private void setupReactionManager(){

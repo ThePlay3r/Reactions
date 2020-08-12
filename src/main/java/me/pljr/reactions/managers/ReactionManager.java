@@ -16,6 +16,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ReactionManager extends ReactionUtil implements Listener {
     private Reaction running;
@@ -107,12 +108,13 @@ public class ReactionManager extends ReactionUtil implements Listener {
     private void onReact(ReactionEvent event){
         Player player = event.getPlayer();
         String playerName = player.getName();
+        UUID playerId = player.getUniqueId();
         broadcastEnd(playerName, running.getAnswer(), running.getWin());
         PLJRApi.getVaultEcon().bankDeposit(playerName, running.getWin());
-        CorePlayer corePlayer = PlayerManager.getCorePlayer(playerName);
+        CorePlayer corePlayer = PlayerManager.getCorePlayer(playerId);
         corePlayer.addReaction(event.getType(), 1);
-        PlayerManager.setCorePlayer(playerName, corePlayer);
-        Reactions.getQueryManager().savePlayer(playerName);
+        PlayerManager.setCorePlayer(playerId, corePlayer);
+        Reactions.getQueryManager().savePlayer(playerId);
         restart(true);
         this.leaderboard = Reactions.getQueryManager().getLeaderboard();
     }

@@ -15,13 +15,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class StatsMenu implements Listener {
 
-    public static void open(Player player, String requestName){
+    public static void open(Player player, Player request){
+        UUID requestId = request.getUniqueId();
         Inventory inventory = Bukkit.createInventory(player, 6*9, CfgStatsMenu.title);
 
-        CorePlayer corePlayer = PlayerManager.getCorePlayer(requestName);
+        CorePlayer corePlayer = PlayerManager.getCorePlayer(requestId);
         HashMap<ReactionType, Integer> stats = corePlayer.getStats();
         HashMap<ReactionType, ReactionStat> top = Reactions.getReactionManager().getLeaderboard();
 

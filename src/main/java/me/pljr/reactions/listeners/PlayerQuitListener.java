@@ -9,6 +9,6 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
-        Reactions.getQueryManager().savePlayer(event.getPlayer().getName());
+        Reactions.getQueryManager().savePlayer(event.getPlayer().getUniqueId());
     }
 }

@@ -4,6 +4,7 @@ import me.pljr.pljrapi.utils.CommandUtil;
 import me.pljr.reactions.config.CfgLang;
 import me.pljr.reactions.enums.Lang;
 import me.pljr.reactions.menus.StatsMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,12 +19,11 @@ public class ReactionsCommand extends CommandUtil implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        String playerName = player.getName();
         if (!checkPerm(player, "reactions.use")) return false;
 
         // /reactions
         if (!(args.length > 0)){
-            StatsMenu.open(player, playerName);
+            StatsMenu.open(player, player);
             return true;
         }
 
@@ -35,7 +35,9 @@ public class ReactionsCommand extends CommandUtil implements CommandExecutor {
 
         // /reactions <player>
         if (checkPerm(player, "reactions.use.others")){
-            StatsMenu.open(player, args[1]);
+            if (checkPlayer(player, args[0])){
+                StatsMenu.open(player, Bukkit.getPlayer(args[0]));
+            }
             return true;
         }
 
