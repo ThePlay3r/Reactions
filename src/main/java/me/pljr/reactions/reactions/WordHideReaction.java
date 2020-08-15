@@ -76,9 +76,7 @@ public class WordHideReaction extends Reaction implements Listener {
     private void onChat(AsyncPlayerChatEvent event){
         if (event.getMessage().contains(word)){
             if (CfgSettings.clearAnswer) event.setCancelled(true);
-            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()->{
-                pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType()));
-            });
+            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()-> pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType())));
             HandlerList.unregisterAll(this);
         }
     }

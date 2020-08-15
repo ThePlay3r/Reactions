@@ -5,7 +5,7 @@ import me.pljr.reactions.enums.ReactionType;
 import java.util.HashMap;
 
 public class CorePlayer {
-    private HashMap<ReactionType, Integer> stats;
+    private final HashMap<ReactionType, Integer> stats;
 
     public CorePlayer(HashMap<ReactionType, Integer> stats) {
         this.stats = stats;
@@ -20,9 +20,5 @@ public class CorePlayer {
 
     public HashMap<ReactionType, Integer> getStats() {
         return stats;
-    }
-
-    public void setStats(HashMap<ReactionType, Integer> stats) {
-        this.stats = stats;
     }
 }

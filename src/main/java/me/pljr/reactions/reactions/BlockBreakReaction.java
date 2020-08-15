@@ -4,10 +4,9 @@ import me.pljr.pljrapi.managers.ActionBarManager;
 import me.pljr.pljrapi.managers.TitleManager;
 import me.pljr.pljrapi.utils.ChatUtil;
 import me.pljr.reactions.Reactions;
+import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.enums.ReactionType;
 import me.pljr.reactions.events.ReactionEvent;
-import me.pljr.reactions.managers.PlayerManager;
-import me.pljr.reactions.objects.CorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -27,7 +26,7 @@ public class BlockBreakReaction extends Reaction implements Listener {
         setAnswer("");
 
         if (isChatBroadcast()){
-            ChatUtil.broadcast(getChatBroadcastStart());
+            ChatUtil.broadcast(getChatBroadcastStart(), CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             TitleManager.broadcast(getTitleBroadcastStart());

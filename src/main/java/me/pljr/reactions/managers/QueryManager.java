@@ -3,8 +3,6 @@ package me.pljr.reactions.managers;
 import me.pljr.pljrapi.database.DataSource;
 import me.pljr.pljrapi.utils.PlayerUtil;
 import me.pljr.reactions.Reactions;
-import me.pljr.reactions.config.CfgLang;
-import me.pljr.reactions.enums.Lang;
 import me.pljr.reactions.enums.ReactionType;
 import me.pljr.reactions.objects.CorePlayer;
 import me.pljr.reactions.objects.ReactionStat;
@@ -15,7 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class QueryManager {
@@ -104,6 +101,7 @@ public class QueryManager {
                        stats.put(type, new ReactionStat("?", 0));
                    }
                }
+               dataSource.close(connection, preparedStatement, results);
            }catch (SQLException e){
                e.printStackTrace();
            }

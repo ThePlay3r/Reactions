@@ -6,6 +6,7 @@ import me.pljr.reactions.Reactions;
 public class CfgSettings {
     private static final ConfigManager config = Reactions.getConfigManager();
 
+    public static boolean bungee;
     public static boolean startOnStartup;
     public static boolean restartOnEnd;
     public static boolean clearAnswer;
@@ -13,6 +14,7 @@ public class CfgSettings {
     public static int time;
 
     public static void load(){
+        CfgSettings.bungee = config.getBoolean("settings.bungee");
         CfgSettings.startOnStartup = config.getBoolean("settings.start-on-startup");
         CfgSettings.restartOnEnd = config.getBoolean("settings.restart-on-end");
         CfgSettings.clearAnswer = config.getBoolean("settings.clear-answer");

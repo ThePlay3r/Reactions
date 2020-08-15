@@ -5,6 +5,7 @@ import me.pljr.pljrapi.managers.TitleManager;
 import me.pljr.pljrapi.objects.PLJRActionBar;
 import me.pljr.pljrapi.objects.PLJRTitle;
 import me.pljr.pljrapi.utils.ChatUtil;
+import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.reactions.Reaction;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public abstract class ReactionUtil {
                 for (String line : reaction.getChatBroadcastNoWinner()){
                     broadcast.add(line.replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast);
+                ChatUtil.broadcast(broadcast, CfgSettings.bungee);
             }
             if (reaction.isTitleBroadcast()){
                 PLJRTitle title = reaction.getTitleBroadcastNoWinner();
@@ -47,7 +48,7 @@ public abstract class ReactionUtil {
                 for (String line : reaction.getChatBroadcastEnd()){
                     broadcast.add(line.replace("%name", name).replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast);
+                ChatUtil.broadcast(broadcast, CfgSettings.bungee);
             }
             if (reaction.isTitleBroadcast()){
                 PLJRTitle title = reaction.getTitleBroadcastEnd();

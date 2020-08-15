@@ -42,7 +42,7 @@ public class MathSummationReaction extends Reaction implements Listener {
             for (String line : getChatBroadcastStart()){
                 broadcast.add(line.replace("%a", a+"").replace("%b", b+""));
             }
-            ChatUtil.broadcast(broadcast);
+            ChatUtil.broadcast(broadcast, CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             PLJRTitle title = getTitleBroadcastStart();
@@ -65,9 +65,7 @@ public class MathSummationReaction extends Reaction implements Listener {
     private void onChat(AsyncPlayerChatEvent event){
         if (event.getMessage().contains(answer+"")){
             if (CfgSettings.clearAnswer) event.setCancelled(true);
-            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()->{
-                pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType()));
-            });
+            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()-> pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType())));
             HandlerList.unregisterAll(this);
         }
     }

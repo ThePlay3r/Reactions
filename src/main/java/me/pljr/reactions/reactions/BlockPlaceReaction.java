@@ -4,6 +4,7 @@ import me.pljr.pljrapi.managers.ActionBarManager;
 import me.pljr.pljrapi.managers.TitleManager;
 import me.pljr.pljrapi.utils.ChatUtil;
 import me.pljr.reactions.Reactions;
+import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.enums.ReactionType;
 import me.pljr.reactions.events.ReactionEvent;
 import org.bukkit.Bukkit;
@@ -25,7 +26,7 @@ public class BlockPlaceReaction extends Reaction implements Listener {
         setAnswer("");
 
         if (isChatBroadcast()){
-            ChatUtil.broadcast(getChatBroadcastStart());
+            ChatUtil.broadcast(getChatBroadcastStart(), CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             TitleManager.broadcast(getTitleBroadcastStart());

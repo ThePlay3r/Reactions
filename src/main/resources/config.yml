@@ -29,6 +29,7 @@ mysql:
 ################## Here, you can enable or disable functions of this plugin. # \
                  #############################################################  \
 settings:
+  bungee: false #-> Should we use bungee functions?
   start-on-startup: true #-> Should we launch reactions on server startup?
   restart-on-end: true #-> Should we start new reaction after ending one?
   clear-answer: true #-> Should we disable(hide) the message from player, that answered?

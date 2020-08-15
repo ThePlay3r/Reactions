@@ -46,7 +46,7 @@ public class WordShuffleReaction extends Reaction implements Listener {
             for (String line : getChatBroadcastStart()){
                 broadcast.add(line.replace("%word", shuffledWord));
             }
-            ChatUtil.broadcast(broadcast);
+            ChatUtil.broadcast(broadcast, CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             PLJRTitle title = getTitleBroadcastStart();
@@ -69,9 +69,7 @@ public class WordShuffleReaction extends Reaction implements Listener {
     private void onChat(AsyncPlayerChatEvent event){
         if (event.getMessage().contains(word)){
             if (CfgSettings.clearAnswer) event.setCancelled(true);
-            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()->{
-                pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType()));
-            });
+            Bukkit.getScheduler().runTask(Reactions.getInstance(), ()-> pluginManager.callEvent(new ReactionEvent(event.getPlayer(), getType())));
             HandlerList.unregisterAll(this);
         }
     }
