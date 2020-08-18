@@ -2,11 +2,11 @@
 
 #|--------------------------------------------------------------------------------------------------------------------|#
 # Plugin: Reactions
-# Author: https://www.mc-market.org/members/89497/ | https://www.spigotmc.org/members/radekjenejlepsi.227786/
+# Author: https://www.mc-market.org/members/89497/
 # Description: Simple plugin for players to interact with.
 # Dependencies:
+#   -> MySQL Database
 #   -> PLJRApi
-#   -> MySQL
 #   -> Vault (https://www.spigotmc.org/resources/vault.34315/)
 #   -> PlaceholderAPI<Optional> (https://www.spigotmc.org/resources/placeholderapi.6245/)
 #|--------------------------------------------------------------------------------------------------------------------|#

@@ -111,10 +111,9 @@ public class ReactionManager extends ReactionUtil implements Listener {
         UUID playerId = player.getUniqueId();
         broadcastEnd(playerName, running.getAnswer(), running.getWin());
         VaultUtil.deposit(player, running.getWin());
-        CorePlayer corePlayer = PlayerManager.getCorePlayer(playerId);
+        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(playerId);
         corePlayer.addReaction(event.getType(), 1);
-        PlayerManager.setCorePlayer(playerId, corePlayer);
-        PlayerManager.savePlayer(playerId);
+        Reactions.getPlayerManager().setCorePlayer(playerId, corePlayer);
         restart(true);
         this.leaderboard = Reactions.getQueryManager().getLeaderboard();
     }

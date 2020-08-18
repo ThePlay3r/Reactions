@@ -23,7 +23,7 @@ public class StatsMenu implements Listener {
         UUID requestId = request.getUniqueId();
         Inventory inventory = Bukkit.createInventory(player, 6*9, CfgStatsMenu.title);
 
-        CorePlayer corePlayer = PlayerManager.getCorePlayer(requestId);
+        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(requestId);
         HashMap<ReactionType, Integer> stats = corePlayer.getStats();
         HashMap<ReactionType, ReactionStat> top = Reactions.getReactionManager().getLeaderboard();
 

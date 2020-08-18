@@ -43,14 +43,64 @@ public class QueryManager {
                 }
             }
             dataSource.close(connection, preparedStatement, resultSet);
-            PlayerManager.setCorePlayer(uuid, new CorePlayer(stats));
+            Reactions.getPlayerManager().setCorePlayer(uuid, new CorePlayer(stats));
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void loadPlayer(UUID uuid){
+        Bukkit.getScheduler().runTaskAsynchronously(instance, ()->{
+            try {
+                HashMap<ReactionType, Integer> stats = new HashMap<>();
+
+                Connection connection = dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM reactions_players WHERE uuid=?"
+                );
+                preparedStatement.setString(1, uuid.toString());
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()){
+                    for (ReactionType type : ReactionType.values()){
+                        stats.put(type, resultSet.getInt(type.toString()));
+                    }
+                }else{
+                    for (ReactionType type : ReactionType.values()){
+                        stats.put(type, 0);
+                    }
+                }
+                dataSource.close(connection, preparedStatement, resultSet);
+                Reactions.getPlayerManager().setCorePlayer(uuid, new CorePlayer(stats));
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void savePlayerSync(UUID uuid){
+        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(uuid);
+        try {
+            HashMap<ReactionType, Integer> stats = corePlayer.getStats();
+
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "REPLACE INTO reactions_players VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+            );
+            preparedStatement.setString(1, uuid.toString());
+            int i = 2;
+            for (ReactionType type : ReactionType.values()){
+                preparedStatement.setInt(i, stats.get(type));
+                i++;
+            }
+            preparedStatement.executeUpdate();
+            dataSource.close(connection, preparedStatement, null);
         }catch (SQLException e){
             e.printStackTrace();
         }
     }
 
     public void savePlayer(UUID uuid){
-        CorePlayer corePlayer = PlayerManager.getCorePlayer(uuid);
+        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(uuid);
         Bukkit.getScheduler().runTaskAsynchronously(instance, ()->{
             try {
                 HashMap<ReactionType, Integer> stats = corePlayer.getStats();
