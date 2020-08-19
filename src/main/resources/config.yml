@@ -622,7 +622,8 @@ stats-menu:
       - "§aServer top:"
       - "§f%topName §7- §f%topAmount"
   math-multiplication:
-    type: "COMPASS"
+    head: true
+    head-owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk0YjVlM2RkYzdhOGYzM2M3OTM0Njg2MGQzOTIzYzcxYTU4MmZkYTE2YWNkYmY0YWQzYzBjYzQ2NWZkOTI2In19fQ=="
     name: "§eMultiplications solved:"
     amount: 1
     lore:
@@ -631,7 +632,8 @@ stats-menu:
       - "§aServer top:"
       - "§f%topName §7- §f%topAmount"
   math-substraction:
-    type: "COMPASS"
+    head: true
+    head-owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM1ZTRlMjZlYWZjMTFiNTJjMTE2NjhlMWQ2NjM0ZTdkMWQwZDIxYzQxMWNiMDg1ZjkzOTQyNjhlYjRjZGZiYSJ9fX0="
     name: "§eSubstractions solved:"
     amount: 1
     lore:
@@ -640,7 +642,8 @@ stats-menu:
       - "§aServer top:"
       - "§f%topName §7- §f%topAmount"
   math-summation:
-    type: "COMPASS"
+    head: true
+    head-owner: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWEyZDg5MWM2YWU5ZjZiYWEwNDBkNzM2YWI4NGQ0ODM0NGJiNmI3MGQ3ZjFhMjgwZGQxMmNiYWM0ZDc3NyJ9fX0="
     name: "§eSummations solved:"
     amount: 1
     lore:
