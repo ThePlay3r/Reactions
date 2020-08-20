@@ -8,13 +8,12 @@ import java.util.UUID;
 
 public class PlayerManager {
     private final HashMap<UUID, CorePlayer> players = new HashMap<>();
-    private final QueryManager query = Reactions.getQueryManager();
 
     public CorePlayer getCorePlayer(UUID uuid){
         if (players.containsKey(uuid)){
             return players.get(uuid);
         }
-        query.loadPlayerSync(uuid);
+        Reactions.getQueryManager().loadPlayerSync(uuid);
         return getCorePlayer(uuid);
     }
 
@@ -24,6 +23,6 @@ public class PlayerManager {
 
     public void savePlayer(UUID uuid){
         if (!players.containsKey(uuid)) return;
-        query.savePlayer(uuid);
+        Reactions.getQueryManager().savePlayer(uuid);
     }
 }
