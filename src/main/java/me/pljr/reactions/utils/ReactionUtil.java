@@ -25,7 +25,7 @@ public abstract class ReactionUtil {
                 for (String line : reaction.getChatBroadcastNoWinner()){
                     broadcast.add(line.replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast, CfgSettings.bungee);
+                ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
             }
             if (reaction.isTitleBroadcast()){
                 PLJRTitle title = reaction.getTitleBroadcastNoWinner();
@@ -48,7 +48,7 @@ public abstract class ReactionUtil {
                 for (String line : reaction.getChatBroadcastEnd()){
                     broadcast.add(line.replace("%name", name).replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast, CfgSettings.bungee);
+                ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
             }
             if (reaction.isTitleBroadcast()){
                 PLJRTitle title = reaction.getTitleBroadcastEnd();

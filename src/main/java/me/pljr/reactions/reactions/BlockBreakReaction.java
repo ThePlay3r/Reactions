@@ -26,7 +26,7 @@ public class BlockBreakReaction extends Reaction implements Listener {
         setAnswer("");
 
         if (isChatBroadcast()){
-            ChatUtil.broadcast(getChatBroadcastStart(), CfgSettings.bungee);
+            ChatUtil.broadcast(getChatBroadcastStart(), "", CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             TitleManager.broadcast(getTitleBroadcastStart());

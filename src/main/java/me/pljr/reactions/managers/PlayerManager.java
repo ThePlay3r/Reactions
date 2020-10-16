@@ -19,6 +19,7 @@ public class PlayerManager {
 
     public void setCorePlayer(UUID uuid, CorePlayer corePlayer){
         players.put(uuid, corePlayer);
+        savePlayer(uuid);
     }
 
     public void savePlayer(UUID uuid){

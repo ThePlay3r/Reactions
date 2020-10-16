@@ -42,7 +42,7 @@ public class MathSubstractionReaction extends Reaction implements Listener {
             for (String line : getChatBroadcastStart()){
                 broadcast.add(line.replace("%a", a+"").replace("%b", b+""));
             }
-            ChatUtil.broadcast(broadcast, CfgSettings.bungee);
+            ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             PLJRTitle title = getTitleBroadcastStart();

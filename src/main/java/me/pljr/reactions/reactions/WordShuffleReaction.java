@@ -46,7 +46,7 @@ public class WordShuffleReaction extends Reaction implements Listener {
             for (String line : getChatBroadcastStart()){
                 broadcast.add(line.replace("%word", shuffledWord));
             }
-            ChatUtil.broadcast(broadcast, CfgSettings.bungee);
+            ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             PLJRTitle title = getTitleBroadcastStart();

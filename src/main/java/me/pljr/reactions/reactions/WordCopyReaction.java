@@ -44,7 +44,7 @@ public class WordCopyReaction extends Reaction implements Listener {
             for (String line : getChatBroadcastStart()){
                 broadcast.add(line.replace("%word", word));
             }
-            ChatUtil.broadcast(broadcast, CfgSettings.bungee);
+            ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
         }
         if (isTitleBroadcast()){
             PLJRTitle title = getTitleBroadcastStart();

@@ -24,7 +24,7 @@ public class AReactionsCommand extends CommandUtil implements CommandExecutor {
         if (args[0].equalsIgnoreCase("restart")){
             if (!checkPerm(sender, "areactions.restart")) return false;
             Reactions.getReactionManager().restart(false);
-            sender.sendMessage(CfgLang.lang.get(Lang.RESTART_SUCCESS));
+            sendMessage(sender, CfgLang.lang.get(Lang.RESTART_SUCCESS));
             return true;
         }
 
@@ -32,7 +32,7 @@ public class AReactionsCommand extends CommandUtil implements CommandExecutor {
         if (args[0].equalsIgnoreCase("end")){
             if (!checkPerm(sender, "areactions.end")) return false;
             Reactions.getReactionManager().end();
-            sender.sendMessage(CfgLang.lang.get(Lang.END_SUCCESS));
+            sendMessage(sender, CfgLang.lang.get(Lang.END_SUCCESS));
             return true;
         }
 
@@ -40,11 +40,11 @@ public class AReactionsCommand extends CommandUtil implements CommandExecutor {
         if (args[0].equalsIgnoreCase("start")){
             if (!checkPerm(sender, "areactions.start")) return false;
             if (Reactions.getReactionManager().isRunning()){
-                sender.sendMessage(CfgLang.lang.get(Lang.START_FAILURE));
+                sendMessage(sender, CfgLang.lang.get(Lang.START_FAILURE));
                 return false;
             }
             Reactions.getReactionManager().start(null);
-            sender.sendMessage(CfgLang.lang.get(Lang.START_SUCCESS));
+            sendMessage(sender, CfgLang.lang.get(Lang.START_SUCCESS));
             return true;
         }
 
