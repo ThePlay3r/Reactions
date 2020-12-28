@@ -8,7 +8,6 @@ import me.pljr.pljrapispigot.managers.TitleManager;
 import me.pljr.pljrapispigot.objects.PLJRActionBar;
 import me.pljr.pljrapispigot.objects.PLJRTitle;
 import me.pljr.pljrapispigot.utils.ChatUtil;
-import me.pljr.pljrapispigot.utils.FormatUtil;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.config.ReactionType;

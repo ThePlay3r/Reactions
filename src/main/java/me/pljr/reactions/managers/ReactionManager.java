@@ -8,7 +8,7 @@ import me.pljr.reactions.config.ReactionType;
 import me.pljr.reactions.events.ReactionEvent;
 import me.pljr.reactions.objects.CorePlayer;
 import me.pljr.reactions.objects.ReactionStat;
-import me.pljr.reactions.reactions.*;
+import me.pljr.reactions.reactions.Reaction;
 import me.pljr.reactions.reactions.types.*;
 import me.pljr.reactions.utils.ReactionUtil;
 import org.bukkit.Bukkit;

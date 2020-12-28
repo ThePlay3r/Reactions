@@ -6,7 +6,6 @@ import me.pljr.reactions.config.ReactionType;
 import me.pljr.reactions.reactions.Reaction;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class MathMultiplicationReaction extends Reaction {
