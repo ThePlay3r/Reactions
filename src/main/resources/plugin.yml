@@ -4,7 +4,8 @@ main: me.pljr.reactions.Reactions
 api-version: 1.13
 authors: [9hx]
 description: Simple plugin for players to interact with.
-depend: [PLJRApi]
+depend: [PLJRApi-Spigot]
+softdepend: [PlaceholderAPI]
 commands:
   reactions:
     description: Main command for Reactions.

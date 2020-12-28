@@ -1,6 +1,6 @@
 package me.pljr.reactions.events;
 
-import me.pljr.reactions.enums.ReactionType;
+import me.pljr.reactions.config.ReactionType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

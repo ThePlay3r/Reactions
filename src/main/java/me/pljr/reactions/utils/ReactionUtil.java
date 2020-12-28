@@ -1,10 +1,10 @@
 package me.pljr.reactions.utils;
 
-import me.pljr.pljrapi.managers.ActionBarManager;
-import me.pljr.pljrapi.managers.TitleManager;
-import me.pljr.pljrapi.objects.PLJRActionBar;
-import me.pljr.pljrapi.objects.PLJRTitle;
-import me.pljr.pljrapi.utils.ChatUtil;
+import me.pljr.pljrapispigot.managers.ActionBarManager;
+import me.pljr.pljrapispigot.managers.TitleManager;
+import me.pljr.pljrapispigot.objects.PLJRActionBar;
+import me.pljr.pljrapispigot.objects.PLJRTitle;
+import me.pljr.pljrapispigot.utils.ChatUtil;
 import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.reactions.Reaction;
 
@@ -20,14 +20,14 @@ public abstract class ReactionUtil {
 
     public void broadcastEnd(String name, String answer, int prize){
         if (name == null){
-            if (reaction.isChatBroadcast()){
+            if (CfgSettings.REACTIONS_CHAT){
                 List<String> broadcast = new ArrayList<>();
                 for (String line : reaction.getChatBroadcastNoWinner()){
                     broadcast.add(line.replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
+                ChatUtil.broadcast(broadcast, "", CfgSettings.BUNGEE);
             }
-            if (reaction.isTitleBroadcast()){
+            if (CfgSettings.REACTIONS_TITLE){
                 PLJRTitle title = reaction.getTitleBroadcastNoWinner();
                 TitleManager.broadcast(new PLJRTitle(
                         title.getTitle().replace("%answer", answer).replace("%prize", prize+""),
@@ -35,7 +35,7 @@ public abstract class ReactionUtil {
                         title.getIn(), title.getStay(), title.getOut()
                 ));
             }
-            if (reaction.isActionBarBroadcast()){
+            if (CfgSettings.REACTIONS_ACTIONBAR){
                 PLJRActionBar actionBar = reaction.getActionBarBroadcastNoWinner();
                 ActionBarManager.broadcast(new PLJRActionBar(
                         actionBar.getMessage().replace("%answer", answer).replace("%prize", prize+""),
@@ -43,14 +43,14 @@ public abstract class ReactionUtil {
                 ));
             }
         }else{
-            if (reaction.isChatBroadcast()){
+            if (CfgSettings.REACTIONS_CHAT){
                 List<String> broadcast = new ArrayList<>();
                 for (String line : reaction.getChatBroadcastEnd()){
                     broadcast.add(line.replace("%name", name).replace("%answer", answer).replace("%prize", prize+""));
                 }
-                ChatUtil.broadcast(broadcast, "", CfgSettings.bungee);
+                ChatUtil.broadcast(broadcast, "", CfgSettings.BUNGEE);
             }
-            if (reaction.isTitleBroadcast()){
+            if (CfgSettings.REACTIONS_TITLE){
                 PLJRTitle title = reaction.getTitleBroadcastEnd();
                 TitleManager.broadcast(new PLJRTitle(
                         title.getTitle().replace("%name", name).replace("%answer", answer).replace("%prize", prize+""),
@@ -58,7 +58,7 @@ public abstract class ReactionUtil {
                         title.getIn(), title.getStay(), title.getOut()
                 ));
             }
-            if (reaction.isActionBarBroadcast()){
+            if (CfgSettings.REACTIONS_ACTIONBAR){
                 PLJRActionBar actionBar = reaction.getActionBarBroadcastEnd();
                 ActionBarManager.broadcast(new PLJRActionBar(
                         actionBar.getMessage().replace("%name", name).replace("%answer", answer).replace("%prize", prize+""),

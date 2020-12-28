@@ -1,13 +1,15 @@
 package me.pljr.reactions.managers;
 
-import me.pljr.pljrapi.utils.VaultUtil;
+import me.pljr.pljrapispigot.utils.VaultUtil;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.CfgSettings;
-import me.pljr.reactions.enums.ReactionType;
+import me.pljr.reactions.config.Lang;
+import me.pljr.reactions.config.ReactionType;
 import me.pljr.reactions.events.ReactionEvent;
 import me.pljr.reactions.objects.CorePlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import me.pljr.reactions.reactions.*;
+import me.pljr.reactions.reactions.types.*;
 import me.pljr.reactions.utils.ReactionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,13 +18,16 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
 public class ReactionManager extends ReactionUtil implements Listener {
+    private final Random random;
     private Reaction running;
     private HashMap<ReactionType, ReactionStat> leaderboard;
 
     public ReactionManager(){
+        this.random = new Random();
         this.leaderboard = Reactions.getQueryManager().getLeaderboard();
     }
 
@@ -40,25 +45,25 @@ public class ReactionManager extends ReactionUtil implements Listener {
                     this.running = new FishCatchReaction();
                     break;
                 case MATH_MULTIPLICATION:
-                    this.running = new MathMultiplicationReaction();
+                    this.running = new MathMultiplicationReaction(random.nextInt(100), random.nextInt(100));
                     break;
                 case MATH_SUBSTRACTION:
-                    this.running = new MathSubstractionReaction();
+                    this.running = new MathSubstractionReaction(random.nextInt(100), random.nextInt(100));
                     break;
                 case MATH_SUMMATION:
-                    this.running = new MathSummationReaction();
+                    this.running = new MathSummationReaction(random.nextInt(100), random.nextInt(100));
                     break;
                 case MOB_KILL:
                     this.running = new MobKillReaction();
                     break;
                 case WORD_COPY:
-                    this.running = new WordCopyReaction();
+                    this.running = new WordCopyReaction(Lang.getRandomWord());
                     break;
                 case WORD_HIDE:
-                    this.running = new WordHideReaction();
+                    this.running = new WordHideReaction(Lang.getRandomWord());
                     break;
                 case WORD_SHUFFLE:
-                    this.running = new WordShuffleReaction();
+                    this.running = new WordShuffleReaction(Lang.getRandomWord());
                     break;
             }
         }else{
@@ -69,7 +74,7 @@ public class ReactionManager extends ReactionUtil implements Listener {
             if (running==null) return;
             broadcastEnd(null, running.getAnswer(), running.getWin());
             restart(true);
-        }, CfgSettings.time*20);
+        }, CfgSettings.TIME *20);
     }
 
     public void restart(boolean cooldown){
@@ -77,12 +82,12 @@ public class ReactionManager extends ReactionUtil implements Listener {
             HandlerList.unregisterAll((Listener) running);
             running = null;
         }
-        if (CfgSettings.restartOnEnd){
+        if (CfgSettings.RESTART_ON_END){
             if (cooldown){
                 Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
                     if (running != null) return;
                     start(null);
-                }, CfgSettings.cooldown*20);
+                }, CfgSettings.COOLDOWN *20);
             }else{
                 start(null);
             }

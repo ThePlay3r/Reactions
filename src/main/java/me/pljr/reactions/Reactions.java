@@ -1,8 +1,7 @@
 package me.pljr.reactions;
 
-import me.pljr.pljrapi.PLJRApi;
-import me.pljr.pljrapi.database.DataSource;
-import me.pljr.pljrapi.managers.ConfigManager;
+import me.pljr.pljrapispigot.database.DataSource;
+import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
 import me.pljr.reactions.config.*;
@@ -27,7 +26,6 @@ public final class Reactions extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
-        if (!setupPLJRApi()) return;
         setupConfig();
         setupDatabase();
         setupManagers();
@@ -37,31 +35,16 @@ public final class Reactions extends JavaPlugin {
         setupPapi();
     }
 
-    private boolean setupPLJRApi(){
-        PLJRApi api = (PLJRApi) Bukkit.getServer().getPluginManager().getPlugin("PLJRApi");
-        if (api == null){
-            Bukkit.getConsoleSender().sendMessage("§cReactions: PLJRApi not found, disabling plugin!");
-            getServer().getPluginManager().disablePlugin(this);
-            return false;
-        }else{
-            Bukkit.getConsoleSender().sendMessage("§aReactions: Hooked into PLJRApi!");
-            return true;
-        }
-    }
-
     private void setupConfig(){
         saveDefaultConfig();
-        configManager = new ConfigManager(getConfig(), "§cReactions:", "config.yml");
-        CfgReactions.load();
-        CfgSettings.load();
-        CfgWords.load();
-        CfgLang.load();
-        CfgStatsMenu.load();
+        configManager = new ConfigManager(this, "config.yml");
+        CfgSettings.load(configManager);
+        Lang.load(configManager);
+        ReactionType.load(configManager);
     }
 
     private void setupListeners(){
         getServer().getPluginManager().registerEvents(reactionManager, this);
-        getServer().getPluginManager().registerEvents(new StatsMenu(), this);
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }
@@ -69,7 +52,7 @@ public final class Reactions extends JavaPlugin {
     private void setupManagers(){
         playerManager = new PlayerManager();
         reactionManager = new ReactionManager();
-        if (CfgSettings.startOnStartup){
+        if (CfgSettings.START_ON_STARTUP){
             reactionManager.start(null);
         }
     }
@@ -81,8 +64,8 @@ public final class Reactions extends JavaPlugin {
     }
 
     private void setupCommand(){
-        getCommand("reactions").setExecutor(new ReactionsCommand());
-        getCommand("areactions").setExecutor(new AReactionsCommand());
+        new ReactionsCommand().registerCommand(this);
+        new AReactionsCommand().registerCommand(this);
     }
 
     private void loadPlayers(){

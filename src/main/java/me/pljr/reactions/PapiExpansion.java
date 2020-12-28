@@ -1,7 +1,7 @@
 package me.pljr.reactions;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.pljr.reactions.enums.ReactionType;
+import me.pljr.reactions.config.ReactionType;
 import me.pljr.reactions.objects.CorePlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.entity.Player;

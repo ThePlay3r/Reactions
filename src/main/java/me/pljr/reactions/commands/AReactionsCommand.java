@@ -1,54 +1,91 @@
 package me.pljr.reactions.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.reactions.Reactions;
-import me.pljr.reactions.config.CfgLang;
-import me.pljr.reactions.enums.Lang;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import me.pljr.reactions.config.Lang;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
-public class AReactionsCommand extends CommandUtil implements CommandExecutor {
+public class AReactionsCommand extends CommandUtil {
+
+    public AReactionsCommand(){
+        super("areactions", "areactions.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!checkPerm(sender, "areactions.use")) return false;
-
-        // /areactions help
-        if (!(args.length > 0) || args[0].equalsIgnoreCase("help")){
-            sendHelp(sender, CfgLang.adminHelp);
-            return true;
-        }
-
-        // /areactions restart
-        if (args[0].equalsIgnoreCase("restart")){
-            if (!checkPerm(sender, "areactions.restart")) return false;
-            Reactions.getReactionManager().restart(false);
-            sendMessage(sender, CfgLang.lang.get(Lang.RESTART_SUCCESS));
-            return true;
-        }
-
-        // /areactions end
-        if (args[0].equalsIgnoreCase("end")){
-            if (!checkPerm(sender, "areactions.end")) return false;
-            Reactions.getReactionManager().end();
-            sendMessage(sender, CfgLang.lang.get(Lang.END_SUCCESS));
-            return true;
-        }
-
-        // /areactions start
-        if (args[0].equalsIgnoreCase("start")){
-            if (!checkPerm(sender, "areactions.start")) return false;
-            if (Reactions.getReactionManager().isRunning()){
-                sendMessage(sender, CfgLang.lang.get(Lang.START_FAILURE));
-                return false;
+    public void onPlayerCommand(Player player, String[] args){
+        if (args.length == 1){
+            // /areactions help
+            if (args[0].equalsIgnoreCase("help")){
+                sendMessage(player, Lang.ADMIN_HELP);
+                return;
             }
-            Reactions.getReactionManager().start(null);
-            sendMessage(sender, CfgLang.lang.get(Lang.START_SUCCESS));
-            return true;
-        }
 
-        sendHelp(sender, CfgLang.adminHelp);
-        return false;
+            // /areactions restart
+            if (args[0].equalsIgnoreCase("restart")){
+                if (!checkPerm(player, "areactions.restart")) return;
+                Reactions.getReactionManager().restart(false);
+                sendMessage(player, Lang.RESTART_SUCCESS.get());
+                return;
+            }
+
+            // /areactions end
+            if (args[0].equalsIgnoreCase("end")){
+                if (!checkPerm(player, "areactions.end")) return;
+                Reactions.getReactionManager().end();
+                sendMessage(player, Lang.END_SUCCESS.get());
+                return;
+            }
+
+            // /areactions start
+            if (args[0].equalsIgnoreCase("start")){
+                if (!checkPerm(player, "areactions.start")) return;
+                if (Reactions.getReactionManager().isRunning()){
+                    sendMessage(player, Lang.START_FAILURE.get());
+                    return;
+                }
+                Reactions.getReactionManager().start(null);
+                sendMessage(player, Lang.START_SUCCESS.get());
+                return;
+            }
+        }
+        sendMessage(player, Lang.ADMIN_HELP);
+    }
+
+    @Override
+    public void onConsoleCommand(ConsoleCommandSender sender, String[] args){
+        if (args.length == 1){
+            // /areactions help
+            if (args[0].equalsIgnoreCase("help")){
+                sendMessage(sender, Lang.ADMIN_HELP);
+                return;
+            }
+
+            // /areactions restart
+            if (args[0].equalsIgnoreCase("restart")){
+                Reactions.getReactionManager().restart(false);
+                sendMessage(sender, Lang.RESTART_SUCCESS.get());
+                return;
+            }
+
+            // /areactions end
+            if (args[0].equalsIgnoreCase("end")){
+                Reactions.getReactionManager().end();
+                sendMessage(sender, Lang.END_SUCCESS.get());
+                return;
+            }
+
+            // /areactions start
+            if (args[0].equalsIgnoreCase("start")){
+                if (Reactions.getReactionManager().isRunning()){
+                    sendMessage(sender, Lang.START_FAILURE.get());
+                    return;
+                }
+                Reactions.getReactionManager().start(null);
+                sendMessage(sender, Lang.START_SUCCESS.get());
+                return;
+            }
+        }
+        sendMessage(sender, Lang.ADMIN_HELP);
     }
 }

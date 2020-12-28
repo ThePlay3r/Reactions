@@ -1,6 +1,11 @@
 # 🕹 Reactions
 Spigot plugin that adds reactions for players to interact with.
 
+# ❗ s
+The recommended version is always the latest Paper, because of the variety of events.
+
+However, you are able to disable certain events in the configuration, to prevent version mismatch.
+
 ----
 
 ## 🔧 Dependencies
@@ -31,7 +36,6 @@ Spigot plugin that adds reactions for players to interact with.
 | [KitManager](https://github.com/ThePlay3r/KitManager) `Spigot plugin for managing custom kits.` <br>
 | [Marriage](https://github.com/ThePlay3r/Marriage) `Spigot plugin for in-game Marriage.` <br>
 | [Lottery](https://github.com/ThePlay3r/Lottery) `Spigot plugin for in-game Lottery.` <br>
-| [PlayTime](https://github.com/ThePlay3r/PlayTime) `Spigot plugin for calculating playtime of players.` <br>
 | [Reactions](https://github.com/ThePlay3r/Reactions) `Spigot plugin for in-game reactions.` <br>
 | [Bank](https://github.com/ThePlay3r/Bank) `Spigot plugin for in-game player banks.` <br>
 | [CustomDrops](https://github.com/ThePlay3r/CustomDrops) `Spigot plugin for custom drops from blocks and mobs.` <br>

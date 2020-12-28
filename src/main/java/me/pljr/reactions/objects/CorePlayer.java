@@ -1,6 +1,6 @@
 package me.pljr.reactions.objects;
 
-import me.pljr.reactions.enums.ReactionType;
+import me.pljr.reactions.config.ReactionType;
 
 import java.util.HashMap;
 

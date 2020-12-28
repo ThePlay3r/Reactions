@@ -1,49 +1,41 @@
 package me.pljr.reactions.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
-import me.pljr.reactions.config.CfgLang;
-import me.pljr.reactions.enums.Lang;
+import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.reactions.config.Lang;
 import me.pljr.reactions.menus.StatsMenu;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ReactionsCommand extends CommandUtil implements CommandExecutor {
+public class ReactionsCommand extends CommandUtil {
+
+    public ReactionsCommand(){
+        super("reactions", "reactions.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "reactions.use")) return false;
-
-        // /reactions
-        if (!(args.length > 0)){
-            StatsMenu.open(player, player);
-            return true;
+    public void onPlayerCommand(Player player, String[] args){
+        if (args.length == 0){
+            // /reactions
+            StatsMenu.get(player).open(player);
+            return;
         }
 
-        // /reactions help
-        if (args[0].equalsIgnoreCase("help") && checkPerm(player, "reactions.help")){
-            sendHelp(player, CfgLang.help);
-            return true;
-        }
-
-        // /reactions <player>
-        if (checkPerm(player, "reactions.use.others")){
-            if (checkPlayer(player, args[0])){
-                StatsMenu.open(player, Bukkit.getPlayer(args[0]));
+        else if (args.length == 1){
+            // /reactions help
+            if (args[0].equalsIgnoreCase("help") && checkPerm(player, "reactions.help")){
+                sendMessage(player, Lang.HELP);
+                return;
             }
-            return true;
+
+            // /reactions <player>
+            if (checkPerm(player, "reactions.use.others")){
+                if (checkPlayer(player, args[0])){
+                    StatsMenu.get(Bukkit.getPlayer(args[0])).open(player);
+                }
+                return;
+            }
         }
 
-        if (checkPerm(player, "reactions.help")){
-            sendHelp(player, CfgLang.help);
-        }
-        return false;
+        if (checkPerm(player, "reactions.help")) sendMessage(player, Lang.HELP);
     }
 }

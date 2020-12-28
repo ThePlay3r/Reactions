@@ -1,9 +1,9 @@
 package me.pljr.reactions.managers;
 
-import me.pljr.pljrapi.database.DataSource;
-import me.pljr.pljrapi.utils.PlayerUtil;
+import me.pljr.pljrapispigot.database.DataSource;
+import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.reactions.Reactions;
-import me.pljr.reactions.enums.ReactionType;
+import me.pljr.reactions.config.ReactionType;
 import me.pljr.reactions.objects.CorePlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.Bukkit;
