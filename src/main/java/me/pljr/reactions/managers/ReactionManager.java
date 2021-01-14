@@ -1,104 +1,115 @@
 package me.pljr.reactions.managers;
 
-import me.pljr.pljrapispigot.utils.VaultUtil;
+import me.pljr.pljrapispigot.builders.ActionBarBuilder;
+import me.pljr.pljrapispigot.builders.TitleBuilder;
+import me.pljr.pljrapispigot.utils.ChatUtil;
 import me.pljr.reactions.Reactions;
-import me.pljr.reactions.config.CfgSettings;
-import me.pljr.reactions.config.Lang;
-import me.pljr.reactions.config.ReactionType;
-import me.pljr.reactions.events.ReactionEvent;
-import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.config.*;
 import me.pljr.reactions.objects.ReactionStat;
 import me.pljr.reactions.reactions.Reaction;
 import me.pljr.reactions.reactions.types.*;
-import me.pljr.reactions.utils.ReactionUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
 
-public class ReactionManager extends ReactionUtil implements Listener {
+public class ReactionManager implements Listener {
     private final Random random;
     private Reaction running;
     private HashMap<ReactionType, ReactionStat> leaderboard;
 
     public ReactionManager(){
         this.random = new Random();
-        this.leaderboard = Reactions.getQueryManager().getLeaderboard();
+        Reactions.getQueryManager().getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
     }
 
-    public void start(Reaction reaction){
-        if (reaction == null){
-            ReactionType type = ReactionType.getRandom();
-            switch (type){
-                case BLOCK_BREAK:
-                    this.running = new BlockBreakReaction();
-                    break;
-                case BLOCK_PLACE:
-                    this.running = new BlockPlaceReaction();
-                    break;
-                case FISH_CATCH:
-                    this.running = new FishCatchReaction();
-                    break;
-                case MATH_MULTIPLICATION:
-                    this.running = new MathMultiplicationReaction(random.nextInt(100), random.nextInt(100));
-                    break;
-                case MATH_SUBSTRACTION:
-                    this.running = new MathSubstractionReaction(random.nextInt(100), random.nextInt(100));
-                    break;
-                case MATH_SUMMATION:
-                    this.running = new MathSummationReaction(random.nextInt(100), random.nextInt(100));
-                    break;
-                case MOB_KILL:
-                    this.running = new MobKillReaction();
-                    break;
-                case WORD_COPY:
-                    this.running = new WordCopyReaction(Lang.getRandomWord());
-                    break;
-                case WORD_HIDE:
-                    this.running = new WordHideReaction(Lang.getRandomWord());
-                    break;
-                case WORD_SHUFFLE:
-                    this.running = new WordShuffleReaction(Lang.getRandomWord());
-                    break;
-            }
-        }else{
-            this.running = reaction;
+    public void start(){
+        switch (ReactionType.getRandom()){
+            case BLOCK_BREAK:
+                this.running = new BlockBreakReaction();
+                break;
+            case BLOCK_PLACE:
+                this.running = new BlockPlaceReaction();
+                break;
+            case FISH_CATCH:
+                this.running = new FishCatchReaction();
+                break;
+            case MATH_MULTIPLICATION:
+                this.running = new MathMultiplicationReaction(random.nextInt(100), random.nextInt(100));
+                break;
+            case MATH_SUBTRACTION:
+                this.running = new MathSubstractionReaction(random.nextInt(100), random.nextInt(100));
+                break;
+            case MATH_SUMMATION:
+                this.running = new MathSummationReaction(random.nextInt(100), random.nextInt(100));
+                break;
+            case MOB_KILL:
+                this.running = new MobKillReaction();
+                break;
+            case WORD_COPY:
+                this.running = new WordCopyReaction(CfgSettings.getRandomWord());
+                break;
+            case WORD_HIDE:
+                this.running = new WordHideReaction(CfgSettings.getRandomWord());
+                break;
+            case WORD_SHUFFLE:
+                this.running = new WordShuffleReaction(CfgSettings.getRandomWord());
+                break;
+            case BUCKET_EMPTY:
+                this.running = new BucketEmptyReaction();
+                break;
+            case ARMOR_CHANGE:
+                this.running = new ArmorChangeReaction();
+                break;
+            case PICKUP_ITEM:
+                this.running = new PickupItemReaction();
+                break;
+            case BUCKET_FILL:
+                this.running = new BucketFillReaction();
+                break;
+            case DROP_ITEM:
+                this.running = new DropItemReaction();
+                break;
+            case BED_ENTER:
+                this.running = new BedEnterReaction();
+                break;
+            case SNEAK:
+                this.running = new SneakReaction();
+                break;
+            case QUIT:
+                this.running = new QuitReaction();
+                break;
+            case JUMP:
+                this.running = new JumpReaction();
+                break;
+            case EAT:
+                this.running = new EatReaction();
+                break;
         }
-        setReaction(this.running);
         Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
-            if (running==null) return;
-            broadcastEnd(null, running.getAnswer(), running.getWin());
-            restart(true);
-        }, CfgSettings.TIME *20);
-    }
-
-    public void restart(boolean cooldown){
-        if (running != null){
-            HandlerList.unregisterAll((Listener) running);
-            running = null;
-        }
-        if (CfgSettings.RESTART_ON_END){
-            if (cooldown){
-                Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
-                    if (running != null) return;
-                    start(null);
-                }, CfgSettings.COOLDOWN *20);
-            }else{
-                start(null);
+            if (isRunning()){
+                if (CfgSettings.BROADCAST_CHAT){
+                    ChatUtil.broadcast(Lang.BROADCAST_NO_WINNER.get()
+                            .replace("{answer}", running.getAnswer())
+                            .replace("{prize}", running.getType().getWinAmount()+""), "", false);
+                }
+                if (CfgSettings.BROADCAST_TITLE){
+                    new TitleBuilder(TitleType.BROADCAST_NO_WINNER.get())
+                            .replaceSubtitle("{answer}", running.getAnswer())
+                            .replaceSubtitle("{prize}", running.getType().getWinAmount()+"")
+                            .create().broadcast();
+                }
+                if (CfgSettings.BROADCAST_ACTIONBAR){
+                    new ActionBarBuilder(ActionBarType.BROADCAST_NO_WINNER.get())
+                            .replaceMessage("{answer}", running.getAnswer())
+                            .replaceMessage("{prize}", running.getType().getWinAmount()+"")
+                            .create().broadcast();
+                }
             }
-        }
-    }
-
-    public void end(){
-        if (running != null){
-            HandlerList.unregisterAll((Listener) running);
-            running = null;
-        }
+            Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), this::start, CfgSettings.COOLDOWN * 20L);
+            Reactions.getQueryManager().getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
+        }, CfgSettings.TIME * 20L);
     }
 
     public boolean isRunning(){
@@ -107,19 +118,5 @@ public class ReactionManager extends ReactionUtil implements Listener {
 
     public HashMap<ReactionType, ReactionStat> getLeaderboard() {
         return leaderboard;
-    }
-
-    @EventHandler
-    private void onReact(ReactionEvent event){
-        Player player = event.getPlayer();
-        String playerName = player.getName();
-        UUID playerId = player.getUniqueId();
-        broadcastEnd(playerName, running.getAnswer(), running.getWin());
-        VaultUtil.deposit(player, running.getWin());
-        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(playerId);
-        corePlayer.addReaction(event.getType(), 1);
-        Reactions.getPlayerManager().setCorePlayer(playerId, corePlayer);
-        restart(true);
-        this.leaderboard = Reactions.getQueryManager().getLeaderboard();
     }
 }

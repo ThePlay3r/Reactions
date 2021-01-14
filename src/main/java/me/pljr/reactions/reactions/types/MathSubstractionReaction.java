@@ -11,7 +11,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class MathSubstractionReaction extends Reaction {
 
     public MathSubstractionReaction(int a, int b){
-        super(ReactionType.MATH_SUBSTRACTION, a-b+"", a + " - " + b);
+        super(ReactionType.MATH_SUBTRACTION, a-b+"", a + " - " + b);
     }
 
     @EventHandler

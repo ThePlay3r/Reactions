@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class QueryManager {
     private final Reactions instance = Reactions.getInstance();
@@ -123,40 +124,40 @@ public class QueryManager {
         });
     }
 
-    public HashMap<ReactionType, ReactionStat> getLeaderboard(){
-        HashMap<ReactionType, ReactionStat> stats = new HashMap<>();
+    public void getLeaderboard(Consumer<HashMap<ReactionType, ReactionStat>> leaderboard){
         Bukkit.getScheduler().runTaskAsynchronously(instance, ()->{
-           try {
-               Connection connection = dataSource.getConnection();
-               PreparedStatement preparedStatement = connection.prepareStatement(
-                       "SELECT * FROM reactions_players"
-               );
-               ResultSet results = preparedStatement.executeQuery();
-               while (results.next()){
-                   UUID uuid = UUID.fromString(results.getString("uuid"));
-                   String playerName = PlayerUtil.getName(Bukkit.getOfflinePlayer(uuid));
-                   for (ReactionType type : ReactionType.values()){
-                       int playerStat = results.getInt(type.toString());
-                       if (stats.containsKey(type)){
-                           if (playerStat > stats.get(type).getAmount()){
-                               stats.put(type, new ReactionStat(playerName, results.getInt(type.toString())));
-                           }
-                       }else{
-                           stats.put(type, new ReactionStat(playerName, results.getInt(type.toString())));
-                       }
-                   }
-               }
-               if (stats.size() == 0){
-                   for (ReactionType type : ReactionType.values()){
-                       stats.put(type, new ReactionStat("?", 0));
-                   }
-               }
-               dataSource.close(connection, preparedStatement, results);
-           }catch (SQLException e){
-               e.printStackTrace();
-           }
+            HashMap<ReactionType, ReactionStat> stats = new HashMap<>();
+            try {
+                Connection connection = dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM reactions_players"
+                );
+                ResultSet results = preparedStatement.executeQuery();
+                while (results.next()){
+                    UUID uuid = UUID.fromString(results.getString("uuid"));
+                    String playerName = PlayerUtil.getName(Bukkit.getOfflinePlayer(uuid));
+                    for (ReactionType type : ReactionType.values()){
+                        int playerStat = results.getInt(type.toString());
+                        if (stats.containsKey(type)){
+                            if (playerStat > stats.get(type).getAmount()){
+                                stats.put(type, new ReactionStat(playerName, results.getInt(type.toString())));
+                            }
+                        }else{
+                            stats.put(type, new ReactionStat(playerName, results.getInt(type.toString())));
+                        }
+                    }
+                }
+                if (stats.size() == 0){
+                    for (ReactionType type : ReactionType.values()){
+                        stats.put(type, new ReactionStat("?", 0));
+                    }
+                }
+                dataSource.close(connection, preparedStatement, results);
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            leaderboard.accept(stats);
         });
-        return stats;
     }
 
     public void setupTables() {

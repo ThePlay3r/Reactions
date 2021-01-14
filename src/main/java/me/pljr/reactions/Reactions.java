@@ -2,7 +2,6 @@ package me.pljr.reactions;
 
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
-import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
 import me.pljr.reactions.config.CfgSettings;
 import me.pljr.reactions.config.Lang;
@@ -53,9 +52,7 @@ public final class Reactions extends JavaPlugin {
     private void setupManagers(){
         playerManager = new PlayerManager();
         reactionManager = new ReactionManager();
-        if (CfgSettings.START_ON_STARTUP){
-            reactionManager.start(null);
-        }
+        reactionManager.start();
     }
 
     private void setupDatabase(){
@@ -66,7 +63,6 @@ public final class Reactions extends JavaPlugin {
 
     private void setupCommand(){
         new ReactionsCommand().registerCommand(this);
-        new AReactionsCommand().registerCommand(this);
     }
 
     private void loadPlayers(){

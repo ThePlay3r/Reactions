@@ -1,40 +1,62 @@
 package me.pljr.reactions.config;
 
 import me.pljr.pljrapispigot.managers.ConfigManager;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public enum Lang {
-    NO_CONSOLE,
-    RESTART_SUCCESS,
-    END_SUCCESS,
-    START_SUCCESS,
-    START_FAILURE,
-    NONE;
-    public static List<String> HELP;
-    public static List<String> ADMIN_HELP;
-    public static List<String> WORDS;
+    HELP("" +
+            "\n&a&lReactions Help" +
+            "\n" +
+            "\n&e/reactions <player> &8» &fOpens GUI with player's statistics." +
+            "\n&e/reactions help &8» &fDisplays this message."),
 
-    private static final Random random = new Random();
+    BROADCAST_START("" +
+            "\n&a&lREACTIONS" +
+            "\n{message}" +
+            "\n"),
+
+    BROADCAST_END("" +
+            "\n&a&lREACTIONS" +
+            "\n&e{name} &fwon &e{prize}$&f!" +
+            "\n&fThe word was: &e{answer}&f." +
+            "\n"),
+
+    BROADCAST_NO_WINNER("" +
+            "\n&a&lREACTIONS" +
+            "\n&eNoone &fwon. &c:(" +
+            "\n&fThe word was: &e{answer}&f." +
+            "\n"),
+
+    MENU_TITLE("&8&lReactions");
+
     private static HashMap<Lang, String> lang;
+    private final String defaultValue;
 
-    public static void load(ConfigManager config){
-        HELP = config.getStringList("help");
-        ADMIN_HELP = config.getStringList("admin-help");
-        WORDS = config.getStringList("words");
-        lang = new HashMap<>();
-        for (Lang lang : values()){
-            Lang.lang.put(lang, config.getString("lang."+lang));
-        }
+    Lang(String defaultValue){
+        this.defaultValue = defaultValue;
     }
 
-    public static String getRandomWord(){
-        return WORDS.get(random.nextInt(WORDS.size()));
+    public static void load(ConfigManager config){
+        lang = new HashMap<>();
+        FileConfiguration fileConfig = config.getConfig();
+        for (Lang lang : values()){
+            if (!fileConfig.isSet(lang.toString())){
+                fileConfig.set(lang.toString(), lang.getDefault());
+            }
+            Lang.lang.put(lang, config.getString(lang.toString()));
+        }
+        config.save();
     }
 
     public String get(){
         return lang.get(this);
+    }
+
+    public String getDefault(){
+        return this.defaultValue;
     }
 }

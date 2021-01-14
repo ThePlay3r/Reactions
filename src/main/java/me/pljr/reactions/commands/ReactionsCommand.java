@@ -23,7 +23,7 @@ public class ReactionsCommand extends CommandUtil {
         else if (args.length == 1){
             // /reactions help
             if (args[0].equalsIgnoreCase("help") && checkPerm(player, "reactions.help")){
-                sendMessage(player, Lang.HELP);
+                sendMessage(player, Lang.HELP.get());
                 return;
             }
 
@@ -36,6 +36,6 @@ public class ReactionsCommand extends CommandUtil {
             }
         }
 
-        if (checkPerm(player, "reactions.help")) sendMessage(player, Lang.HELP);
+        if (checkPerm(player, "reactions.help")) sendMessage(player, Lang.HELP.get());
     }
 }

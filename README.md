@@ -1,7 +1,7 @@
 # 🕹 Reactions
 Spigot plugin that adds reactions for players to interact with.
 
-# ❗ s
+# ❗ 
 The recommended version is always the latest Paper, because of the variety of events.
 
 However, you are able to disable certain events in the configuration, to prevent version mismatch.
@@ -20,7 +20,6 @@ However, you are able to disable certain events in the configuration, to prevent
 ## 🎮 Commands
 - [Overview](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#overview)
 - [Player Commands](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#player-commands)
-- [Admin Commands](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#admin-commands)
 
 ## 🔎 Setup
 - [Wiki](https://github.com/ThePlay3r/Reactions/wiki)
