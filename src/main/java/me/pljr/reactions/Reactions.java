@@ -3,9 +3,7 @@ package me.pljr.reactions;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.reactions.commands.ReactionsCommand;
-import me.pljr.reactions.config.CfgSettings;
-import me.pljr.reactions.config.Lang;
-import me.pljr.reactions.config.ReactionType;
+import me.pljr.reactions.config.*;
 import me.pljr.reactions.listeners.AsyncPlayerPreLoginListener;
 import me.pljr.reactions.listeners.PlayerQuitListener;
 import me.pljr.reactions.managers.PlayerManager;
@@ -14,6 +12,7 @@ import me.pljr.reactions.managers.ReactionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.security.krb5.Config;
 
 public final class Reactions extends JavaPlugin {
     private static Reactions instance;
@@ -39,8 +38,10 @@ public final class Reactions extends JavaPlugin {
         saveDefaultConfig();
         configManager = new ConfigManager(this, "config.yml");
         CfgSettings.load(configManager);
-        Lang.load(configManager);
-        ReactionType.load(configManager);
+        Lang.load(new ConfigManager(this, "lang.yml"));
+        ReactionType.load(new ConfigManager(this, "reactions.yml"));
+        MenuItemType.load(new ConfigManager(this, "menus.yml"));
+        ActionBarType.load(new ConfigManager(this, "actionbars.yml"));
     }
 
     private void setupListeners(){
