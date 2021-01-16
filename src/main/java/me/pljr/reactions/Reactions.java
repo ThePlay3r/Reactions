@@ -42,6 +42,7 @@ public final class Reactions extends JavaPlugin {
         ReactionType.load(new ConfigManager(this, "reactions.yml"));
         MenuItemType.load(new ConfigManager(this, "menus.yml"));
         ActionBarType.load(new ConfigManager(this, "actionbars.yml"));
+        TitleType.load(new ConfigManager(this, "titles.yml"));
     }
 
     private void setupListeners(){
