@@ -9,7 +9,7 @@ However, you are able to disable certain events in the configuration, to prevent
 ----
 
 ## 🔧 Dependencies
-- PLJRApi: https://www.github.com/ThePlay3r/ServerCore
+- PLJRApi: https://www.github.com/ThePlay3r/PLJRApi
 - Vault: https://www.spigotmc.org/resources/vault.34315/
 
 ## 📋 Features
@@ -20,6 +20,7 @@ However, you are able to disable certain events in the configuration, to prevent
 ## 🎮 Commands
 - [Overview](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#overview)
 - [Player Commands](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#player-commands)
+- [Admin Commands](https://github.com/ThePlay3r/Reactions/wiki/Commands-And-Permissions#admin-commands)
 
 ## 🔎 Setup
 - [Wiki](https://github.com/ThePlay3r/Reactions/wiki)
