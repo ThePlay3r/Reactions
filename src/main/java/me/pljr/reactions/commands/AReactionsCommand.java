@@ -25,9 +25,15 @@ public class AReactionsCommand extends CommandUtil {
                 if (!checkPerm(player, "areactions.reload")) return;
                 Reactions.getInstance().setupConfig();
                 sendMessage(player, Lang.RELOAD.get());
-                break;
+                return;
+            }
+            case "HELP":
+            {
+                sendMessage(player, Lang.ADMIN_HELP.get());
+                return;
             }
         }
+        sendMessage(player, Lang.ADMIN_HELP.get());
     }
 
     @Override
@@ -42,8 +48,14 @@ public class AReactionsCommand extends CommandUtil {
             {
                 Reactions.getInstance().setupConfig();
                 sendMessage(sender, Lang.RELOAD.get());
-                break;
+                return;
+            }
+            case "HELP":
+            {
+                sendMessage(sender, Lang.ADMIN_HELP.get());
+                return;
             }
         }
+        sendMessage(sender, Lang.ADMIN_HELP.get());
     }
 }
