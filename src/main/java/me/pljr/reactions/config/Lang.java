@@ -14,6 +14,12 @@ public enum Lang {
             "\n&e/reactions <player> &8» &fOpens GUI with player's statistics." +
             "\n&e/reactions help &8» &fDisplays this message."),
 
+    ADMIN_HELP("" +
+            "\n&a&lReactions Admin-Help" +
+            "\n" +
+            "\n&e/areactions reload &8» &fReloads language and configuration. &7(Not recommended.)" +
+            "\n&e/areactions help &8» &fDisplays this message."),
+
     BROADCAST_START("" +
             "\n&a&lREACTIONS" +
             "\n{message}" +
@@ -31,7 +37,8 @@ public enum Lang {
             "\n&fThe word was: &e{answer}&f." +
             "\n"),
 
-    MENU_TITLE("&8&lReactions");
+    MENU_TITLE("&8&lReactions"),
+    RELOAD("&aReactions &8» &fReload &bsuccessful.");
 
     private static HashMap<Lang, String> lang;
     private final String defaultValue;

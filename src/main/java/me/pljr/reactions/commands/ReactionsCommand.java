@@ -29,9 +29,8 @@ public class ReactionsCommand extends CommandUtil {
 
             // /reactions <player>
             if (checkPerm(player, "reactions.use.others")){
-                if (checkPlayer(player, args[0])){
-                    StatsMenu.get(Bukkit.getPlayer(args[0])).open(player);
-                }
+                if (!checkPlayer(player, args[0])) return;
+                StatsMenu.get(Bukkit.getPlayer(args[0])).open(player);
                 return;
             }
         }

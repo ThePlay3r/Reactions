@@ -2,11 +2,6 @@ package me.pljr.reactions.reactions;
 
 import me.pljr.pljrapispigot.builders.ActionBarBuilder;
 import me.pljr.pljrapispigot.builders.TitleBuilder;
-import me.pljr.pljrapispigot.managers.ActionBarManager;
-import me.pljr.pljrapispigot.managers.ConfigManager;
-import me.pljr.pljrapispigot.managers.TitleManager;
-import me.pljr.pljrapispigot.objects.PLJRActionBar;
-import me.pljr.pljrapispigot.objects.PLJRTitle;
 import me.pljr.pljrapispigot.utils.ChatUtil;
 import me.pljr.pljrapispigot.utils.VaultUtil;
 import me.pljr.reactions.Reactions;
@@ -18,13 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class Reaction implements Listener {
     private final ReactionType type;
     private final String answer;
+    private boolean finished;
 
     public Reaction(ReactionType type){
         this(type, "", "");
@@ -37,6 +31,7 @@ public abstract class Reaction implements Listener {
     public Reaction(ReactionType type, String answer, String shownAnswer){
         this.answer = answer;
         this.type = type;
+        this.finished = false;
 
         Bukkit.getServer().getPluginManager().registerEvents(this, Reactions.getInstance());
 
@@ -65,8 +60,30 @@ public abstract class Reaction implements Listener {
     }
 
     public void finish(Player player){
-        new ReactionEvent(player, getType());
+        if (finished) return;
+        finished = true;
         HandlerList.unregisterAll(this);
+        if (player == null){
+            if (CfgSettings.BROADCAST_CHAT){
+                ChatUtil.broadcast(Lang.BROADCAST_NO_WINNER.get()
+                        .replace("{answer}", getAnswer())
+                        .replace("{prize}", getType().getWinAmount()+""), "", false);
+            }
+            if (CfgSettings.BROADCAST_TITLE){
+                new TitleBuilder(TitleType.BROADCAST_NO_WINNER.get())
+                        .replaceSubtitle("{answer}", getAnswer())
+                        .replaceSubtitle("{prize}", getType().getWinAmount()+"")
+                        .create().broadcast();
+            }
+            if (CfgSettings.BROADCAST_ACTIONBAR){
+                new ActionBarBuilder(ActionBarType.BROADCAST_NO_WINNER.get())
+                        .replaceMessage("{answer}", getAnswer())
+                        .replaceMessage("{prize}", getType().getWinAmount()+"")
+                        .create().broadcast();
+            }
+            return;
+        }
+        new ReactionEvent(player, getType());
         String playerName = player.getName();
         UUID playerId = player.getUniqueId();
         if (CfgSettings.BROADCAST_CHAT){

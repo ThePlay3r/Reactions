@@ -2,6 +2,7 @@ package me.pljr.reactions;
 
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
+import me.pljr.reactions.commands.AReactionsCommand;
 import me.pljr.reactions.commands.ReactionsCommand;
 import me.pljr.reactions.config.*;
 import me.pljr.reactions.listeners.AsyncPlayerPreLoginListener;
@@ -12,7 +13,6 @@ import me.pljr.reactions.managers.ReactionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import sun.security.krb5.Config;
 
 public final class Reactions extends JavaPlugin {
     private static Reactions instance;
@@ -34,8 +34,9 @@ public final class Reactions extends JavaPlugin {
         setupPapi();
     }
 
-    private void setupConfig(){
+    public void setupConfig(){
         saveDefaultConfig();
+        reloadConfig();
         configManager = new ConfigManager(this, "config.yml");
         CfgSettings.load(configManager);
         Lang.load(new ConfigManager(this, "lang.yml"));
@@ -65,6 +66,7 @@ public final class Reactions extends JavaPlugin {
 
     private void setupCommand(){
         new ReactionsCommand().registerCommand(this);
+        new AReactionsCommand().registerCommand(this);
     }
 
     private void loadPlayers(){

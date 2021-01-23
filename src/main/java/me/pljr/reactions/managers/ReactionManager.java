@@ -1,8 +1,5 @@
 package me.pljr.reactions.managers;
 
-import me.pljr.pljrapispigot.builders.ActionBarBuilder;
-import me.pljr.pljrapispigot.builders.TitleBuilder;
-import me.pljr.pljrapispigot.utils.ChatUtil;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.*;
 import me.pljr.reactions.objects.ReactionStat;
@@ -88,32 +85,10 @@ public class ReactionManager implements Listener {
                 break;
         }
         Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
-            if (isRunning()){
-                if (CfgSettings.BROADCAST_CHAT){
-                    ChatUtil.broadcast(Lang.BROADCAST_NO_WINNER.get()
-                            .replace("{answer}", running.getAnswer())
-                            .replace("{prize}", running.getType().getWinAmount()+""), "", false);
-                }
-                if (CfgSettings.BROADCAST_TITLE){
-                    new TitleBuilder(TitleType.BROADCAST_NO_WINNER.get())
-                            .replaceSubtitle("{answer}", running.getAnswer())
-                            .replaceSubtitle("{prize}", running.getType().getWinAmount()+"")
-                            .create().broadcast();
-                }
-                if (CfgSettings.BROADCAST_ACTIONBAR){
-                    new ActionBarBuilder(ActionBarType.BROADCAST_NO_WINNER.get())
-                            .replaceMessage("{answer}", running.getAnswer())
-                            .replaceMessage("{prize}", running.getType().getWinAmount()+"")
-                            .create().broadcast();
-                }
-            }
+            running.finish(null);
             Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), this::start, CfgSettings.COOLDOWN * 20L);
             Reactions.getQueryManager().getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
         }, CfgSettings.TIME * 20L);
-    }
-
-    public boolean isRunning(){
-        return running != null;
     }
 
     public HashMap<ReactionType, ReactionStat> getLeaderboard() {
