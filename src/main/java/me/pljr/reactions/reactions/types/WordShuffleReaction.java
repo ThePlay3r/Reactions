@@ -13,7 +13,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 public class WordShuffleReaction extends Reaction implements Listener {
 
     public WordShuffleReaction(String word){
-        super(ReactionType.WORD_COPY, word, FormatUtil.scramble(word));
+        super(ReactionType.WORD_SHUFFLE, word, FormatUtil.scramble(word));
     }
 
     @EventHandler
