@@ -35,6 +35,7 @@ settings:
   broadcast-chat: true #-> Should we broadcast reactions in chat?
   broadcast-title: true #-> Should we broadcast reactions in titles?
   broadcast-actionbar: true #-> Should we broadcast reactions in actionbars?
+  cache-players: true # Should we save player data in memory? (false = loading on each join)
 #|--------------------------------------------------------------------------------------------------------------------|#
 
 ###############\

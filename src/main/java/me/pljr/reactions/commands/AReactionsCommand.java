@@ -1,15 +1,18 @@
 package me.pljr.reactions.commands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.Lang;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class AReactionsCommand extends CommandUtil {
+public class AReactionsCommand extends BukkitCommand {
 
-    public AReactionsCommand() {
+    private final Reactions plugin;
+
+    public AReactionsCommand(Reactions plugin) {
         super("areactions", "areactions.use");
+        this.plugin = plugin;
     }
 
     @Override
@@ -23,7 +26,7 @@ public class AReactionsCommand extends CommandUtil {
             case "RELOAD":
             {
                 if (!checkPerm(player, "areactions.reload")) return;
-                Reactions.getInstance().setupConfig();
+                plugin.setupConfig();
                 sendMessage(player, Lang.RELOAD.get());
                 return;
             }
@@ -46,7 +49,7 @@ public class AReactionsCommand extends CommandUtil {
         switch (args[0].toUpperCase()){
             case "RELOAD":
             {
-                Reactions.getInstance().setupConfig();
+                plugin.setupConfig();
                 sendMessage(sender, Lang.RELOAD.get());
                 return;
             }

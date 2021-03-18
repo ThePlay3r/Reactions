@@ -2,6 +2,7 @@ package me.pljr.reactions.config;
 
 import me.pljr.pljrapispigot.builders.ItemBuilder;
 import me.pljr.pljrapispigot.managers.ConfigManager;
+import me.pljr.pljrapispigot.utils.FormatUtil;
 import me.pljr.pljrapispigot.xseries.XMaterial;
 import me.pljr.reactions.reactions.Reaction;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -61,18 +62,20 @@ public enum ReactionType {
         for (ReactionType type : values()){
             if (!fileConfig.isSet(type.toString())){
                 fileConfig.set(type.toString()+".enabled", true);
-                fileConfig.set(type.toString()+".menu-slot", type.getDefaultMenuSlot());
-                config.setSimpleItemStack(type.toString()+".menu-item", type.getDefaultMenuItem());
-                fileConfig.set(type.toString()+".win-amount", type.getDefaultWinAmount());
-                fileConfig.set(type.toString()+".message", type.getDefaultMessage());
-            }
-            if (config.getBoolean(type.toString()+".enabled")){
                 enabled.add(type);
+                fileConfig.set(type.toString()+".menu-slot", type.defaultMenuSlot);
+                config.setSimpleItemStack(type.toString()+".menu-item", type.defaultMenuItem);
+                fileConfig.set(type.toString()+".win-amount", type.defaultWinAmount);
+                fileConfig.set(type.toString()+".message", type.defaultMessage);
+            }else{
+                if (config.getBoolean(type.toString()+".enabled")){
+                    enabled.add(type);
+                }
+                menuSlots.put(type, config.getInt(type.toString()+".menu-slot"));
+                menuItems.put(type, config.getSimpleItemStack(type.toString()+".menu-item"));
+                winAmounts.put(type, config.getDouble(type.toString()+".win-amount"));
+                messages.put(type, config.getString(type.toString()+".message"));
             }
-            menuSlots.put(type, config.getInt(type.toString()+".menu-slot"));
-            menuItems.put(type, config.getSimpleItemStack(type.toString()+".menu-item"));
-            winAmounts.put(type, config.getDouble(type.toString()+".win-amount"));
-            messages.put(type, config.getString(type.toString()+".message"));
         }
         config.save();
     }
@@ -81,35 +84,19 @@ public enum ReactionType {
         return enabled.get(new Random().nextInt(enabled.size()));
     }
 
-    public int getDefaultMenuSlot(){
-        return this.defaultMenuSlot;
-    }
-
-    public ItemStack getDefaultMenuItem() {
-        return defaultMenuItem;
-    }
-
-    public double getDefaultWinAmount() {
-        return defaultWinAmount;
-    }
-
-    public String getDefaultMessage() {
-        return defaultMessage;
-    }
-
     public int getMenuSlot(){
-        return menuSlots.get(this);
+        return menuSlots.getOrDefault(this, defaultMenuSlot);
     }
 
     public ItemStack getMenuItem(){
-        return menuItems.get(this);
+        return menuItems.getOrDefault(this, defaultMenuItem);
     }
 
     public double getWinAmount(){
-        return winAmounts.get(this);
+        return winAmounts.getOrDefault(this, defaultWinAmount);
     }
 
     public String getMessage(){
-        return messages.get(this);
+        return messages.getOrDefault(this, FormatUtil.colorString(defaultMessage));
     }
 }

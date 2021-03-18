@@ -1,8 +1,11 @@
 package me.pljr.reactions;
 
+import lombok.AllArgsConstructor;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.pljr.reactions.config.ReactionType;
-import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.managers.PlayerManager;
+import me.pljr.reactions.managers.ReactionManager;
+import me.pljr.reactions.objects.ReactionPlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.entity.Player;
 
@@ -13,21 +16,12 @@ import java.util.UUID;
  * This class will be registered through the register-method in the
  * plugins onEnable-method.
  */
+@AllArgsConstructor
 public class PapiExpansion extends PlaceholderExpansion {
 
-    private Reactions plugin;
-
-    /**
-     * Since we register the expansion inside our own plugin, we
-     * can simply use this method here to get an instance of our
-     * plugin.
-     *
-     * @param plugin
-     *        The instance of our plugin.
-     */
-    public PapiExpansion(Reactions plugin){
-        this.plugin = plugin;
-    }
+    private final Reactions plugin;
+    private final PlayerManager playerManager;
+    private final ReactionManager reactionManager;
 
     /**
      * Because this is an internal class,
@@ -110,9 +104,9 @@ public class PapiExpansion extends PlaceholderExpansion {
         }
 
         UUID playerId = player.getUniqueId();
-        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(playerId);
-        HashMap<ReactionType, Integer> stats = corePlayer.getStats();
-        HashMap<ReactionType, ReactionStat> top = Reactions.getReactionManager().getLeaderboard();
+        ReactionPlayer reactionPlayer = playerManager.getPlayer(playerId);
+        HashMap<ReactionType, Integer> stats = reactionPlayer.getStats();
+        HashMap<ReactionType, ReactionStat> top = reactionManager.getLeaderboard();
 
         for (ReactionType type : ReactionType.values()){
             if (identifier.equals(type.toString())){

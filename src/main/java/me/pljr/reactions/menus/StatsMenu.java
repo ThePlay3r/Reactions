@@ -1,5 +1,6 @@
 package me.pljr.reactions.menus;
 
+import lombok.Getter;
 import me.pljr.pljrapispigot.builders.GUIBuilder;
 import me.pljr.pljrapispigot.builders.ItemBuilder;
 import me.pljr.pljrapispigot.objects.GUI;
@@ -7,22 +8,22 @@ import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.Lang;
 import me.pljr.reactions.config.MenuItemType;
 import me.pljr.reactions.config.ReactionType;
-import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.objects.ReactionPlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
 
+@Getter
 public class StatsMenu {
 
-    public static GUI get(Player player){
-        UUID requestId = player.getUniqueId();
+    private final GUI gui;
+
+    public StatsMenu(ReactionPlayer reactionPlayer, HashMap<ReactionType, ReactionStat> top){
         GUIBuilder inventory = new GUIBuilder(Lang.MENU_TITLE.get(), 6);
 
-        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(requestId);
-        HashMap<ReactionType, Integer> stats = corePlayer.getStats();
-        HashMap<ReactionType, ReactionStat> top = Reactions.getReactionManager().getLeaderboard();
+        HashMap<ReactionType, Integer> stats = reactionPlayer.getStats();
 
         inventory.setItem(0, MenuItemType.BACKGROUND_1.get());
         inventory.setItem(9, MenuItemType.BACKGROUND_1.get());
@@ -79,6 +80,6 @@ public class StatsMenu {
                             .replaceLore("{topAmount}", top.get(type).getAmount()+"")
                             .create());
         }
-        return inventory.create();
+        gui = inventory.create();
     }
 }

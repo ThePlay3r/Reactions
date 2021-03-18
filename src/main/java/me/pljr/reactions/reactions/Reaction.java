@@ -7,7 +7,7 @@ import me.pljr.pljrapispigot.utils.VaultUtil;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.*;
 import me.pljr.reactions.events.ReactionEvent;
-import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -16,6 +16,9 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 
 public abstract class Reaction implements Listener {
+    protected final static Settings SETTINGS = Reactions.get().getSettings();
+    private final static PlayerManager PLAYER_MANAGER = Reactions.get().getPlayerManager();
+
     private final ReactionType type;
     private final String answer;
     private boolean finished;
@@ -33,18 +36,18 @@ public abstract class Reaction implements Listener {
         this.type = type;
         this.finished = false;
 
-        Bukkit.getServer().getPluginManager().registerEvents(this, Reactions.getInstance());
+        Bukkit.getServer().getPluginManager().registerEvents(this, Reactions.get());
 
-        if (CfgSettings.BROADCAST_CHAT){
+        if (SETTINGS.isBroadcastChat()){
             ChatUtil.broadcast(Lang.BROADCAST_START.get()
                     .replace("{message}", type.getMessage().replace("{word}", shownAnswer)), "", false);
         }
-        if (CfgSettings.BROADCAST_TITLE){
+        if (SETTINGS.isBroadcastTitle()){
             new TitleBuilder(TitleType.BROADCAST_START.get())
                     .replaceSubtitle("{message}", type.getMessage().replace("{word}", shownAnswer))
                     .create().broadcast();
         }
-        if (CfgSettings.BROADCAST_ACTIONBAR){
+        if (SETTINGS.isBroadcastActionbar()){
             new ActionBarBuilder(ActionBarType.BROADCAST_START.get())
                     .replaceMessage("{message}", type.getMessage().replace("{word}", shownAnswer))
                     .create().broadcast();
@@ -64,18 +67,18 @@ public abstract class Reaction implements Listener {
         finished = true;
         HandlerList.unregisterAll(this);
         if (player == null){
-            if (CfgSettings.BROADCAST_CHAT){
+            if (SETTINGS.isBroadcastChat()){
                 ChatUtil.broadcast(Lang.BROADCAST_NO_WINNER.get()
                         .replace("{answer}", getAnswer())
                         .replace("{prize}", getType().getWinAmount()+""), "", false);
             }
-            if (CfgSettings.BROADCAST_TITLE){
+            if (SETTINGS.isBroadcastTitle()){
                 new TitleBuilder(TitleType.BROADCAST_NO_WINNER.get())
                         .replaceSubtitle("{answer}", getAnswer())
                         .replaceSubtitle("{prize}", getType().getWinAmount()+"")
                         .create().broadcast();
             }
-            if (CfgSettings.BROADCAST_ACTIONBAR){
+            if (SETTINGS.isBroadcastActionbar()){
                 new ActionBarBuilder(ActionBarType.BROADCAST_NO_WINNER.get())
                         .replaceMessage("{answer}", getAnswer())
                         .replaceMessage("{prize}", getType().getWinAmount()+"")
@@ -86,20 +89,20 @@ public abstract class Reaction implements Listener {
         new ReactionEvent(player, getType());
         String playerName = player.getName();
         UUID playerId = player.getUniqueId();
-        if (CfgSettings.BROADCAST_CHAT){
+        if (SETTINGS.isBroadcastChat()){
             ChatUtil.broadcast(Lang.BROADCAST_END.get()
                     .replace("{answer}", getAnswer())
                     .replace("{prize}", getType().getWinAmount()+"")
                     .replace("{name}", playerName), "", false);
         }
-        if (CfgSettings.BROADCAST_TITLE){
+        if (SETTINGS.isBroadcastTitle()){
             new TitleBuilder(TitleType.BROADCAST_END.get())
                     .replaceSubtitle("{answer}", getAnswer())
                     .replaceSubtitle("{prize}", getType().getWinAmount()+"")
                     .replaceSubtitle("{name}", playerName)
                     .create().broadcast();
         }
-        if (CfgSettings.BROADCAST_ACTIONBAR){
+        if (SETTINGS.isBroadcastActionbar()){
             new ActionBarBuilder(ActionBarType.BROADCAST_END.get())
                     .replaceMessage("{answer}", getAnswer())
                     .replaceMessage("{prize}", getType().getWinAmount()+"")
@@ -107,8 +110,9 @@ public abstract class Reaction implements Listener {
                     .create().broadcast();
         }
         VaultUtil.deposit(player, getType().getWinAmount());
-        CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(playerId);
-        corePlayer.addReaction(getType(), 1);
-        Reactions.getPlayerManager().setCorePlayer(playerId, corePlayer);
+        PLAYER_MANAGER.getPlayer(playerId, reactionPlayer -> {
+            reactionPlayer.addReaction(getType(), 1);
+            PLAYER_MANAGER.setPlayer(playerId, reactionPlayer);
+        });
     }
 }

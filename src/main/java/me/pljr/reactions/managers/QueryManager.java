@@ -1,12 +1,14 @@
 package me.pljr.reactions.managers;
 
+import lombok.AllArgsConstructor;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.reactions.Reactions;
 import me.pljr.reactions.config.ReactionType;
-import me.pljr.reactions.objects.CorePlayer;
+import me.pljr.reactions.objects.ReactionPlayer;
 import me.pljr.reactions.objects.ReactionStat;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,15 +18,14 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+@AllArgsConstructor
 public class QueryManager {
-    private final Reactions instance = Reactions.getInstance();
+
+    private final JavaPlugin plugin;
     private final DataSource dataSource;
 
-    public QueryManager(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public void loadPlayerSync(UUID uuid){
+    public ReactionPlayer loadPlayer(UUID uuid){
+        ReactionPlayer reactionPlayer = new ReactionPlayer(uuid);
         try {
             HashMap<ReactionType, Integer> stats = new HashMap<>();
 
@@ -44,20 +45,16 @@ public class QueryManager {
                 }
             }
             dataSource.close(connection, preparedStatement, resultSet);
-            Reactions.getPlayerManager().setCorePlayer(uuid, new CorePlayer(stats));
+            reactionPlayer = new ReactionPlayer(uuid, stats);
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return reactionPlayer;
     }
 
-    public void loadPlayer(UUID uuid){
-        Bukkit.getScheduler().runTaskAsynchronously(instance, ()-> loadPlayerSync(uuid));
-    }
-
-    public void savePlayerSync(UUID uuid){
+    public void savePlayer(ReactionPlayer reactionPlayer){
         try {
-            CorePlayer corePlayer = Reactions.getPlayerManager().getCorePlayer(uuid);
-            HashMap<ReactionType, Integer> stats = corePlayer.getStats();
+            HashMap<ReactionType, Integer> stats = reactionPlayer.getStats();
 
             Connection connection = dataSource.getConnection();
             StringBuilder statement = new StringBuilder("REPLACE INTO reactions_players VALUES (?");
@@ -66,7 +63,7 @@ public class QueryManager {
             }
             statement.append(");");
             PreparedStatement preparedStatement = connection.prepareStatement(statement.toString());
-            preparedStatement.setString(1, uuid.toString());
+            preparedStatement.setString(1, reactionPlayer.getUniqueId().toString());
             int i = 2;
             for (ReactionType type : ReactionType.values()){
                 preparedStatement.setInt(i, stats.get(type));
@@ -79,12 +76,8 @@ public class QueryManager {
         }
     }
 
-    public void savePlayer(UUID uuid){
-        Bukkit.getScheduler().runTaskAsynchronously(instance, ()-> savePlayerSync(uuid));
-    }
-
     public void getLeaderboard(Consumer<HashMap<ReactionType, ReactionStat>> leaderboard){
-        Bukkit.getScheduler().runTaskAsynchronously(instance, ()->{
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, ()->{
             HashMap<ReactionType, ReactionStat> stats = new HashMap<>();
             try {
                 Connection connection = dataSource.getConnection();

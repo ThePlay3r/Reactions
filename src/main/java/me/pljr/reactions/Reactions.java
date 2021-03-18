@@ -1,5 +1,7 @@
 package me.pljr.reactions;
 
+import lombok.Getter;
+import me.pljr.pljrapispigot.PLJRApiSpigot;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.reactions.commands.AReactionsCommand;
@@ -14,17 +16,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public final class Reactions extends JavaPlugin {
+
     private static Reactions instance;
-    private static PlayerManager playerManager;
-    private static ConfigManager configManager;
-    private static ReactionManager reactionManager;
-    private static QueryManager queryManager;
+    public static Logger log;
+    private PLJRApiSpigot pljrApiSpigot;
+
+    private ConfigManager configManager;
+    @Getter private Settings settings;
+
+    @Getter private PlayerManager playerManager;
+    private ReactionManager reactionManager;
+    private QueryManager queryManager;
+
+    public static Reactions get(){
+        return instance;
+    }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        log = getLogger();
         instance = this;
+        if (!setupPLJRApi()) return;
         setupConfig();
         setupDatabase();
         setupManagers();
@@ -34,11 +50,20 @@ public final class Reactions extends JavaPlugin {
         setupPapi();
     }
 
+    public boolean setupPLJRApi(){
+        if (PLJRApiSpigot.get() == null){
+            getLogger().warning("PLJRApi-Spigot is not enabled!");
+            return false;
+        }
+        pljrApiSpigot = PLJRApiSpigot.get();
+        return true;
+    }
+
     public void setupConfig(){
         saveDefaultConfig();
         reloadConfig();
         configManager = new ConfigManager(this, "config.yml");
-        CfgSettings.load(configManager);
+        settings = new Settings(configManager);
         Lang.load(new ConfigManager(this, "lang.yml"));
         ReactionType.load(new ConfigManager(this, "reactions.yml"));
         MenuItemType.load(new ConfigManager(this, "menus.yml"));
@@ -48,25 +73,26 @@ public final class Reactions extends JavaPlugin {
 
     private void setupListeners(){
         getServer().getPluginManager().registerEvents(reactionManager, this);
-        getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(playerManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(playerManager), this);
     }
 
     private void setupManagers(){
-        playerManager = new PlayerManager();
-        reactionManager = new ReactionManager();
+        playerManager = new PlayerManager(this, queryManager, settings.isCachePlayers());
+        reactionManager = new ReactionManager(this, queryManager, settings);
         reactionManager.start();
     }
 
     private void setupDatabase(){
-        DataSource dataSource = DataSource.getFromConfig(configManager);
-        queryManager = new QueryManager(dataSource);
+        DataSource dataSource = pljrApiSpigot.getDataSource(configManager);
+        dataSource.initPool("Reactions-Pool");
+        queryManager = new QueryManager(this, dataSource);
         queryManager.setupTables();
     }
 
     private void setupCommand(){
-        new ReactionsCommand().registerCommand(this);
-        new AReactionsCommand().registerCommand(this);
+        new ReactionsCommand(playerManager, reactionManager).registerCommand(this);
+        new AReactionsCommand(this).registerCommand(this);
     }
 
     private void loadPlayers(){
@@ -77,34 +103,14 @@ public final class Reactions extends JavaPlugin {
 
     private void setupPapi(){
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
-            new PapiExpansion(this).register();
+            new PapiExpansion(this, playerManager, reactionManager).register();
         }
-    }
-
-    public static Reactions getInstance() {
-        return instance;
-    }
-    public static ConfigManager getConfigManager() {
-        return configManager;
-    }
-    public static QueryManager getQueryManager() {
-        return queryManager;
-    }
-    public static ReactionManager getReactionManager() {
-        return reactionManager;
-    }
-    public static PlayerManager getPlayerManager() {
-        return playerManager;
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-    }
-
-    private void savePlayers(){
         for (Player player : Bukkit.getOnlinePlayers()){
-            queryManager.savePlayerSync(player.getUniqueId());
+            playerManager.getPlayer(player.getUniqueId(), queryManager::savePlayer);
         }
     }
 }

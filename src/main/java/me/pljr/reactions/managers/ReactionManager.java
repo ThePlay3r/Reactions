@@ -7,18 +7,25 @@ import me.pljr.reactions.reactions.Reaction;
 import me.pljr.reactions.reactions.types.*;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Random;
 
 public class ReactionManager implements Listener {
     private final Random random;
+    private final JavaPlugin plugin;
+    private final QueryManager queryManager;
+    private final Settings settings;
     private Reaction running;
     private HashMap<ReactionType, ReactionStat> leaderboard;
 
-    public ReactionManager(){
+    public ReactionManager(JavaPlugin plugin, QueryManager queryManager, Settings settings){
         this.random = new Random();
-        Reactions.getQueryManager().getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
+        this.plugin = plugin;
+        queryManager.getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
+        this.queryManager = queryManager;
+        this.settings = settings;
     }
 
     public void start(){
@@ -45,13 +52,13 @@ public class ReactionManager implements Listener {
                 this.running = new MobKillReaction();
                 break;
             case WORD_COPY:
-                this.running = new WordCopyReaction(CfgSettings.getRandomWord());
+                this.running = new WordCopyReaction(settings.getRandomWord());
                 break;
             case WORD_HIDE:
-                this.running = new WordHideReaction(CfgSettings.getRandomWord());
+                this.running = new WordHideReaction(settings.getRandomWord());
                 break;
             case WORD_SHUFFLE:
-                this.running = new WordShuffleReaction(CfgSettings.getRandomWord());
+                this.running = new WordShuffleReaction(settings.getRandomWord());
                 break;
             case BUCKET_EMPTY:
                 this.running = new BucketEmptyReaction();
@@ -84,11 +91,11 @@ public class ReactionManager implements Listener {
                 this.running = new EatReaction();
                 break;
         }
-        Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), ()->{
+        Bukkit.getScheduler().runTaskLater(plugin, ()->{
             running.finish(null);
-            Bukkit.getScheduler().runTaskLater(Reactions.getInstance(), this::start, CfgSettings.COOLDOWN * 20L);
-            Reactions.getQueryManager().getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
-        }, CfgSettings.TIME * 20L);
+            Bukkit.getScheduler().runTaskLater(plugin, this::start, settings.getCooldown() * 20L);
+            queryManager.getLeaderboard(leaderboard -> this.leaderboard = leaderboard);
+        }, settings.getTime() * 20L);
     }
 
     public HashMap<ReactionType, ReactionStat> getLeaderboard() {

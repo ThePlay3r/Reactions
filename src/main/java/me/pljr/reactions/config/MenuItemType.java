@@ -24,18 +24,15 @@ public enum MenuItemType {
         FileConfiguration fileConfig = config.getConfig();
         for (MenuItemType menuItemType : values()){
             if (!fileConfig.isSet(menuItemType.toString())){
-                config.setSimpleItemStack(menuItemType.toString(), menuItemType.getDefault());
+                config.setSimpleItemStack(menuItemType.toString(), menuItemType.defaultValue);
+            }else{
+                items.put(menuItemType, config.getSimpleItemStack(menuItemType.toString()));
             }
-            items.put(menuItemType, config.getSimpleItemStack(menuItemType.toString()));
         }
         config.save();
     }
 
     public ItemStack get(){
-        return items.get(this);
-    }
-
-    public ItemStack getDefault(){
-        return this.defaultValue;
+        return items.getOrDefault(this, defaultValue);
     }
 }

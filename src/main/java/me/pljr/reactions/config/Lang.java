@@ -1,6 +1,7 @@
 package me.pljr.reactions.config;
 
 import me.pljr.pljrapispigot.managers.ConfigManager;
+import me.pljr.pljrapispigot.utils.FormatUtil;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
@@ -28,13 +29,13 @@ public enum Lang {
     BROADCAST_END("" +
             "\n&a&lREACTIONS" +
             "\n&e{name} &fwon &e{prize}$&f!" +
-            "\n&fThe word was: &e{answer}&f." +
+            "\n&fThe answer was: &e{answer}&f." +
             "\n"),
 
     BROADCAST_NO_WINNER("" +
             "\n&a&lREACTIONS" +
             "\n&eNoone &fwon. &c:(" +
-            "\n&fThe word was: &e{answer}&f." +
+            "\n&fThe answer was: &e{answer}&f." +
             "\n"),
 
     MENU_TITLE("&8&lReactions"),
@@ -52,18 +53,15 @@ public enum Lang {
         FileConfiguration fileConfig = config.getConfig();
         for (Lang lang : values()){
             if (!fileConfig.isSet(lang.toString())){
-                fileConfig.set(lang.toString(), lang.getDefault());
+                fileConfig.set(lang.toString(), lang.defaultValue);
+            }else{
+                Lang.lang.put(lang, config.getString(lang.toString()));
             }
-            Lang.lang.put(lang, config.getString(lang.toString()));
         }
         config.save();
     }
 
     public String get(){
-        return lang.get(this);
-    }
-
-    public String getDefault(){
-        return this.defaultValue;
+        return lang.getOrDefault(this, FormatUtil.colorString(defaultValue));
     }
 }
